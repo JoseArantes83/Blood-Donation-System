@@ -1,0 +1,16 @@
+{
+  "name": "projetovue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "volta": {
+    "node": "20.11.1",
+    "npm": "10.4.0"
+  }
+}
