@@ -7,26 +7,26 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    console.log('Rota http://localhost:3000 acessada');
+    console.log('Rota http://localhost:3000 acessada.');
     return this.appService.getHello();
   }
 
   @Get('teste1')
   getConfirmacaoRota(): string {
-    console.log('Rota http://localhost:3000/teste1 acessada');
+    console.log('Rota http://localhost:3000/teste1 acessada.');
     return this.appService.getConfirmacaoRota();
   }
 
   @Get('teste2/:num')
   getNumero(@Param('num') numero: number): string {
-    console.log(`Rota http://localhost:3000/teste2/${numero} acessada`);
+    console.log(`Rota http://localhost:3000/teste2/${numero} acessada.`);
     const res = this.appService.getNumero(numero);
     return res;
   }
 
   @Get('teste3')
   getQuery(@Query('valor') valor: number, @Query('quantidade') quantidade: number): string{
-    console.log(`Rota http://localhost:3000/teste3?valor=${valor}&quantidade=${quantidade} acessada`);
+    console.log(`Rota http://localhost:3000/teste3?valor=${valor}&quantidade=${quantidade} acessada.`);
     const res = this.appService.getQuery(valor, quantidade);
     return res;
   }

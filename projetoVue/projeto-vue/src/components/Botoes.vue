@@ -1,14 +1,17 @@
 <template>
     <!-- <button @click="mudaDePorta">Clique aqui para mudar de porta</button> -->
     <button @click="getTeste1">Teste1</button>
-    <p>{{ message }}</p>
+    <p>{{ message }}</p><br>
 
+    <label for="input">Valor:</label>
     <input type="number" id="input" /><br>
 
     <button @click="getTeste2">Teste2</button>
-    <p>{{ message2 }}</p>
+    <p>{{ message2 }}</p><br>
 
+    <label for="valor">Valor:</label>
     <input type="number" id="valor" /><br>
+    <label for="quantidade">Quantidade:</label>
     <input type="number" id="quantidade" /><br>
 
     <button @click="getTeste3">Teste3</button>

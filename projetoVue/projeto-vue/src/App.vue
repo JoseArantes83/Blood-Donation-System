@@ -21,14 +21,14 @@ import BotoesVue from "./components/Botoes.vue";
 
 <style>
 /* Onde ficará o código CSS */
-/* * {
-  margin: 0;
-  padding: 0;
+* {
+  margin: 5px;
+  padding: 1px;
   box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 header {
   line-height: 1.5;
-} */
+}
 </style>
