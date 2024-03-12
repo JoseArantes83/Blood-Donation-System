@@ -30,9 +30,4 @@ export class AppController {
     const res = this.appService.getQuery(valor, quantidade);
     return res;
   }
-
-  // @Post('change-url')
-  // mudaDePorta(@Body('newUrl') newUrl: string){
-  //   return { newUrl };
-  // }
 }

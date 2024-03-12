@@ -32,10 +32,10 @@ export default {
     methods: {
         getTeste1() {
             axios.get('http://localhost:3000/teste1')
-                .then(response => {
+                .then(response => { // Método chamado quando a requisição é bem-sucedida.
                     this.message = response.data;
                 })
-                .catch(error => {
+                .catch(error => { // Método chamado quando a requisição não é bem-sucedida.
                     console.error(error);
                 });
         },
