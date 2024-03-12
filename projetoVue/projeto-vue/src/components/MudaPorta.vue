@@ -38,19 +38,22 @@ export default {
         },
         getTeste2() {
             const num = document.getElementById('input').value;
-            axios.get(`http://localhost:3000/teste2/${num}`).then(response => {
-                this.message2 = response.data;
-            }).catch(error => {
-                console.error(error);
-            });
+
+            axios.get(`http://localhost:3000/teste2/${num}`)
+                .then(response => {
+                    this.message2 = response.data;
+                }).catch(error => {
+                    console.error(error);
+                });
         },
         getTeste3() {
-            const valor = document.getElementById('valor').value;
-            const quantidade = document.getElementById('quantidade').value;
+            const val = document.getElementById('valor').value;
+            const qtd = document.getElementById('quantidade').value;
+
             axios.get('http://localhost:3000/teste3', {
                 params: {
-                    valor: valor,
-                    quantidade: quantidade
+                    valor: val,
+                    quantidade: qtd
                 }
             }).then(response => {
                 this.message3 = response.data;
@@ -60,40 +63,6 @@ export default {
         }
     }
 }
-
-// export default {
-//     data() {
-//         return {
-//             message: ''
-//         };
-//     },
-//     methods: {
-//         fetchTeste1() {
-//             axios.get('http://localhost:3000/teste1').then(response => {
-//                 this.message = response.data;
-//             }).catch(error => {
-//                 console.error(error);
-//             });
-//         }
-//     }
-// };
-
-
-// export default {
-//     methods: {
-//         async mudaDePorta() {
-//             try {
-//                 const response = await axios.post('http://localhost:5173', {
-//                     newUrl: 'http://localhost:3000/teste1'
-//                 });
-//                 console.log(response.data);
-//                 window.location.href = response.data.newUrl;
-//             } catch (error) {
-//                 console.error(error);
-//             }
-//         }
-//     }
-// }
 </script>
 
 <style lang="scss" scoped></style>

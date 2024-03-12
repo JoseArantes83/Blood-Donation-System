@@ -4,7 +4,6 @@ import MudaPortaVue from "./components/MudaPorta.vue";
 // import NavBar from './components/NavBar.vue';
 // import Usuario from './components/Usuario.vue';
 
-
 </script>
 
 <template> <!-- Onde ficará o HTML -->
