@@ -1,5 +1,5 @@
 <script setup>// Onde fica o código JS e TS
-import MudaPortaVue from "./components/MudaPorta.vue";
+import BotoesVue from "./components/Botoes.vue";
 // import Cabecalho from './components/Cabecalho.vue';
 // import NavBar from './components/NavBar.vue';
 // import Usuario from './components/Usuario.vue';
@@ -14,7 +14,7 @@ import MudaPortaVue from "./components/MudaPorta.vue";
   </header>
 
   <main>
-    <MudaPortaVue></MudaPortaVue>
+    <BotoesVue></BotoesVue>
     <!-- <Usuario></Usuario> -->
   </main>
 </template>
