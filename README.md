@@ -1,2 +1,2 @@
 # Blood-Donation-System
-A system developed in NestJS and Vue.
+A system developed in NestJS and Vue.js.
