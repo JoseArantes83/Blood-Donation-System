@@ -1,14 +1,14 @@
 <script>
 import axios from 'axios';
 
-const DadosFormulario = {
+export default {
     data() {
         return {
             nome: '',
             idade: '',
-            casado: '',
+            casado: 'false',
             areaAtuacao: '',
-            sexo: '',
+            sexo: ''
         };
     },
     methods: {
@@ -19,17 +19,15 @@ const DadosFormulario = {
                     idade: this.idade,
                     casado: this.casado,
                     areaAtuacao: this.areaAtuacao,
-                    sexo: this.sexo,
+                    sexo: this.sexo
                 });
                 console.log(response.data);
             } catch (error) {
                 console.error(error);
             }
-        },
-    },
+        }
+    }
 };
-
-export { DadosFormulario };
 </script>
 
 <template>
@@ -38,9 +36,9 @@ export { DadosFormulario };
             <fieldset>
                 <legend>Dados de Usuário</legend>
                 <label for="nome">Nome:</label>
-                <input v-model="nome" type="text" id="nome" placeholder="Nome"><br>
+                <input v-model="nome" type="text" id="nome" placeholder="Insira seu nome"><br>
                 <label for="idade">Idade:</label>
-                <input v-model="idade" type="number" id="idade" placeholder="Idade"><br>
+                <input v-model="idade" type="number" id="idade" placeholder="Insira sua idade"><br>
                 <label for="casado">Casado?</label>
                 <input v-model="casado" type="checkbox" id="casado"><br>
                 <label for="areaAtuacao">Área de Atuação:</label>
@@ -51,7 +49,7 @@ export { DadosFormulario };
                     <option value="Outra">Outra</option>
                 </select><br>
                 <label for="feminino">Sexo:</label><br>
-                <input v-model="sexo" type="radio" name="sexo" id="feminino" value="feminino">
+                <input v-model="sexo" type="radio" name="sexo" id="feminino" value="feminino" checked>
                 <label for="feminino">Feminino</label><br>
                 <input v-model="sexo" type="radio" name="sexo" id="masculino" value="masculino">
                 <label for="masculino">Masculino</label><br><br>

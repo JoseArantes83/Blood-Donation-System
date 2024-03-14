@@ -1,7 +1,7 @@
 <script>
 import axios from 'axios'; // Axios é uma biblioteca usada para fazer requisições http em aplicações Vue.js
 
-const DadosBotoes = {
+export default {
     data() {
         return {
             message: '',
@@ -45,9 +45,7 @@ const DadosBotoes = {
             });
         }
     }
-}
-
-export { DadosBotoes };
+};
 </script>
 
 <template>

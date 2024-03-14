@@ -37,8 +37,8 @@ export class AppController {
   }
 
   @Post('formulario')
-  async postFormulario(@Body() algo: any) {
-    console.log(algo);
-    return { message: 'dados recebidos' };
+  async postFormulario(@Body() dadosFront: any) {
+    console.log(dadosFront);
+    return { Back_End: 'Dados Recebidos!' };
   }
 }
