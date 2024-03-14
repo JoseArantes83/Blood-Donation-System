@@ -1,27 +1,7 @@
-<template>
-    <!-- <button @click="mudaDePorta">Clique aqui para mudar de porta</button> -->
-    <button @click="getTeste1">Teste1</button>
-    <p>{{ message }}</p><br>
-
-    <label for="input">Valor:</label>
-    <input type="number" id="input" /><br>
-
-    <button @click="getTeste2">Teste2</button>
-    <p>{{ message2 }}</p><br>
-
-    <label for="valor">Valor:</label>
-    <input type="number" id="valor" /><br>
-    <label for="quantidade">Quantidade:</label>
-    <input type="number" id="quantidade" /><br>
-
-    <button @click="getTeste3">Teste3</button>
-    <p>{{ message3 }}</p>
-</template>
-
 <script>
 import axios from 'axios'; // Axios é uma biblioteca usada para fazer requisições http em aplicações Vue.js
 
-export default {
+const DadosBotoes = {
     data() {
         return {
             message: '',
@@ -66,6 +46,40 @@ export default {
         }
     }
 }
+
+export { DadosBotoes };
 </script>
 
-<style lang="scss" scoped></style>
+<template>
+    <div class="container">
+        <form action="" method="post">
+            <div class="field">
+                <!-- <button @click="mudaDePorta">Clique aqui para mudar de porta</button> -->
+                <button @click="getTeste1">Teste1</button>
+                <p>{{ message }}</p><br>
+            </div>
+            <div class="field">
+                <label for="input">Valor:</label>
+                <input type="number" id="input" /><br>
+
+                <button @click="getTeste2">Teste2</button>
+                <p>{{ message2 }}</p><br>
+            </div>
+            <div class="field">
+                <label for="valor">Valor:</label>
+                <input type="number" id="valor" /><br>
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" /><br>
+
+                <button @click="getTeste3">Teste3</button>
+                <p>{{ message3 }}</p>
+            </div>
+        </form>
+    </div>
+</template>
+
+<style lang="scss" scoped>
+.field {
+    background-color: lightblue;
+}
+</style>

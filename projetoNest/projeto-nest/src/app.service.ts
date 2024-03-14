@@ -14,7 +14,7 @@ export class AppService {
     return `Rota executou com sucesso recebendo o valor ${numero}!`;
   }
 
-  getQuery(valor: number, quantidade: number): string{
+  getQuery(valor: number, quantidade: number): string {
     return `Rota executou com sucesso recebendo o valor ${valor} e quantidade ${quantidade}!`;
   }
 }
