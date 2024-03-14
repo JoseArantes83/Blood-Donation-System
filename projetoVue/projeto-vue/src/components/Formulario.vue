@@ -5,10 +5,10 @@ export default {
     data() {
         return {
             nome: '',
-            idade: '',
-            casado: 'false',
-            areaAtuacao: '',
-            sexo: ''
+            idade: 'não informado',
+            casado: false,
+            areaAtuacao: 'não informado',
+            sexo: 'não informado'
         };
     },
     methods: {
@@ -36,7 +36,7 @@ export default {
             <fieldset>
                 <legend>Dados de Usuário</legend>
                 <label for="nome">Nome:</label>
-                <input v-model="nome" type="text" id="nome" placeholder="Insira seu nome"><br>
+                <input v-model="nome" type="text" id="nome" placeholder="Insira seu nome" autofocus><br>
                 <label for="idade">Idade:</label>
                 <input v-model="idade" type="number" id="idade" placeholder="Insira sua idade"><br>
                 <label for="casado">Casado?</label>
@@ -49,7 +49,7 @@ export default {
                     <option value="Outra">Outra</option>
                 </select><br>
                 <label for="feminino">Sexo:</label><br>
-                <input v-model="sexo" type="radio" name="sexo" id="feminino" value="feminino" checked>
+                <input v-model="sexo" type="radio" name="sexo" id="feminino" value="feminino">
                 <label for="feminino">Feminino</label><br>
                 <input v-model="sexo" type="radio" name="sexo" id="masculino" value="masculino">
                 <label for="masculino">Masculino</label><br><br>
