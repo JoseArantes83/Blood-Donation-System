@@ -1,18 +1,19 @@
-<script>// Onde fica o código JS e TS
-import Botoes from './components/Botoes.vue';
-import Formulario from './components/Formulario.vue';
+<script>
+// Onde fica o código JS e TS
+import Botoes from "./components/Botoes.vue";
+import Formulario from "./components/Formulario.vue";
 
 export default {
   components: {
     Botoes,
-    Formulario
-  }
+    Formulario,
+  },
 };
 </script>
 
-<template> <!-- Onde ficará o HTML -->
-  <header>
-  </header>
+<template>
+  <!-- Onde ficará o HTML -->
+  <header></header>
 
   <main>
     <Formulario />
