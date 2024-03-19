@@ -32,32 +32,30 @@ export default {
 </script>
 
 <template>
-    <div class="container">
-        <form @submit.prevent="enviarFormulario">
-            <fieldset>
-                <legend>Dados de Usuário</legend>
-                <label for="nome">Nome:</label>
-                <input v-model="nome" type="text" id="nome" placeholder="Insira seu nome" autofocus /><br />
-                <label for="idade">Idade:</label>
-                <input v-model="idade" type="number" id="idade" placeholder="Insira sua idade" /><br />
-                <label for="casado">Casado?</label>
-                <input v-model="casado" type="checkbox" id="casado" /><br />
-                <label for="areaAtuacao">Área de Atuação:</label>
-                <select v-model="areaAtuacao" name="areaAtuacao" id="areaAtuacao">
-                    <option value="cienciasHumanas">Ciências Humanas</option>
-                    <option value="cienciasExatas">Ciências Exatas</option>
-                    <option value="cienciasBiologicas">Ciências Biológicas</option>
-                    <option value="Outra">Outra</option>
-                </select><br />
-                <label for="feminino">Sexo:</label><br />
-                <input v-model="sexo" type="radio" name="sexo" id="feminino" value="feminino" />
-                <label for="feminino">Feminino</label><br />
-                <input v-model="sexo" type="radio" name="sexo" id="masculino" value="masculino" />
-                <label for="masculino">Masculino</label><br /><br />
-                <button type="submit">Enviar Dados</button>
-            </fieldset>
-        </form>
-    </div>
+    <form @submit.prevent="enviarFormulario">
+        <fieldset>
+            <legend>Dados de Usuário</legend>
+            <label for="nome">Nome:</label>
+            <input v-model="nome" type="text" id="nome" placeholder="Insira seu nome" autofocus /><br />
+            <label for="idade">Idade:</label>
+            <input v-model="idade" type="number" id="idade" placeholder="Insira sua idade" /><br />
+            <label for="casado">Casado?</label>
+            <input v-model="casado" type="checkbox" id="casado" /><br />
+            <label for="areaAtuacao">Área de Atuação:</label>
+            <select v-model="areaAtuacao" name="areaAtuacao" id="areaAtuacao">
+                <option value="cienciasHumanas">Ciências Humanas</option>
+                <option value="cienciasExatas">Ciências Exatas</option>
+                <option value="cienciasBiologicas">Ciências Biológicas</option>
+                <option value="Outra">Outra</option>
+            </select><br />
+            <label for="feminino">Sexo:</label><br />
+            <input v-model="sexo" type="radio" name="sexo" id="feminino" value="feminino" />
+            <label for="feminino">Feminino</label><br />
+            <input v-model="sexo" type="radio" name="sexo" id="masculino" value="masculino" />
+            <label for="masculino">Masculino</label><br /><br />
+            <button type="submit">Enviar Dados</button>
+        </fieldset>
+    </form>
 </template>
 
 <style lang="scss" scoped>

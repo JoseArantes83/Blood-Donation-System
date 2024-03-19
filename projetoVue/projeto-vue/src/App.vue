@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <!-- Onde ficará o HTML -->
+  <!-- Onde fica o HTML -->
   <header></header>
 
   <main>
@@ -21,7 +21,7 @@ export default {
 </template>
 
 <style>
-/* Onde ficará o código CSS */
+/* Onde fica o código CSS */
 * {
   margin: 5px;
   padding: 1px;
