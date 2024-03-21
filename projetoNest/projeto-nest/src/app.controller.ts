@@ -1,9 +1,10 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Formulario } from './formulario';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Get()
   getHello(): string {
@@ -37,8 +38,8 @@ export class AppController {
   }
 
   @Post('formulario')
-  async postFormulario(@Body() dadosFront: any) {
+  async postFormulario(@Body() dadosFront: Formulario) {
     console.log(dadosFront);
-    return { Status_Backend: 'Dados Recebidos!' };
+    return dadosFront;
   }
 }
