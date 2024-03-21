@@ -4,29 +4,64 @@ import axios from "axios";
 export default {
     data() {
         return {
-            nome: "",
-            idade: "não informado",
+            nome: '',
+            idade: 'não informado',
             casado: false,
-            areaAtuacao: "não informado",
-            sexo: "não informado",
+            areaAtuacao: 'não informado',
+            sexo: 'não informado',
+            tudo: {},
+            // enum: {
+            //     1: 'v1',
+            //     2: 'v2',
+            //     3: 'v3',
+            //     4: 'v4',
+            //     5: 'v5',
+            // },
         };
     },
+    // methods: {
+    //     async enviarFormulario() {
+    //         try {
+    //             // Tinha esquecido de colocar a rota correta, que é a do back-end http://localhost:3000
+    //             const response = await axios.post("http://localhost:3000/formulario", {
+    //                 nome: this.nome,
+    //                 idade: this.idade,
+    //                 casado: this.casado,
+    //                 areaAtuacao: this.areaAtuacao,
+    //                 sexo: this.sexo,
+    //             });
+    //             console.log(response.data);
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     },
+    // },
     methods: {
-        async enviarFormulario() {
-            try {
-                // Tinha esquecido de colocar a rota correta, que é a do back-end http://localhost:3000
-                const response = await axios.post("http://localhost:3000/formulario", {
+        enviarFormulario() {
+            fetch('http://localhost:3000/formulario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                     nome: this.nome,
                     idade: this.idade,
                     casado: this.casado,
                     areaAtuacao: this.areaAtuacao,
                     sexo: this.sexo,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Aqui você pode processar a resposta do servidor
+                    // Por exemplo, exibir os dados recebidos
+                    this.tudo = data;
+                    console.log(data);
                 });
-                console.log(response.data);
-            } catch (error) {
-                console.error(error);
-            }
         },
+        // getEnumString(value) {
+        //     return this.enum[value] || 'valor desconhecido';
+        // },
     },
 };
 </script>
@@ -56,6 +91,20 @@ export default {
             <button type="submit">Enviar Dados</button>
         </fieldset>
     </form>
+    <br>
+    <div id="dadosRecebidos">
+        <h2>Dados Recebidos:</h2>
+        <ul>
+            <li>Nome: {{ tudo.nome }}</li>
+            <li>Idade: {{ tudo.idade }}</li>
+            <li>Casado: {{ tudo.casado }}</li>
+            <li>Área de Atuação: {{ tudo.areaAtuacao }}</li>
+            <li>Sexo: {{ tudo.sexo }}</li>
+        </ul>
+    </div>
+    <!-- <div v-for="(item, index) in tudo" :key="index">
+        {{ getEnum(item.value) }}
+    </div> -->
 </template>
 
 <style lang="scss" scoped>
