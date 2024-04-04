@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Formulario } from './formulario';
+// import { Formulario } from './formulario';
+import { FormularioDto } from './formularioDto';
 
 @Controller()
 export class AppController {
@@ -38,8 +39,8 @@ export class AppController {
   }
 
   @Post('formulario')
-  async postFormulario(@Body() dadosFront: Formulario) {
-    console.log(dadosFront);
-    return dadosFront;
+  async postFormulario(@Body() formularioDto: FormularioDto) {
+    console.log(formularioDto);
+    return formularioDto;
   }
 }
