@@ -43,7 +43,7 @@ export default {
             idade: {
                 required,
                 minValue: minValue(0),
-                maxValue: maxValue(1000),
+                maxValue: maxValue(10000),
             },
             casado: { required },
             areaAtuacao: { required },
