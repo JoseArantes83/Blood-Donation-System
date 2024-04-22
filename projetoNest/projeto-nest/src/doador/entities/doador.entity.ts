@@ -18,12 +18,12 @@ export class Doador {
     @Column()
     contato: String;
 
-    @Column()
+    @Column({ type: 'text'})
     tipoSanguineo: TipoSanguineo;
 
-    @Column()
+    @Column({ type: 'text'})
     rh : RH
 
-    @Column()
+    @Column({ type: 'boolean', default: false })
     tipoRhCorretos: boolean
 }
