@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { LocalDate, LocalTime } from '@js-joda/core';
 
 @Entity()
 export class Doacao {
