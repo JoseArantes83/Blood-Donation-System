@@ -1,12 +1,13 @@
 import { RH } from "../enums/rh";
 import { TipoSanguineo } from "../enums/tipoSanguineo";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Doacao } from "src/doacao/entities/doacao.entity";
 
 
 @Entity()
 export class Doador {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ name: 'codigo' })
     id: number;
 
     @Column()
@@ -26,4 +27,7 @@ export class Doador {
 
     @Column({ type: 'boolean', default: false })
     tipoRhCorretos: boolean
+
+    @OneToMany(() => Doacao, (doacao) => doacao.doador)
+    doacoes: Doacao[]
 }
