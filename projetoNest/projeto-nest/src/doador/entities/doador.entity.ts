@@ -10,13 +10,13 @@ export class Doador {
     @PrimaryGeneratedColumn({ name: 'codigo' })
     id: number;
 
-    @Column()
+    @Column({ type: 'text'})
     name: String;
 
-    @Column()
+    @Column({ type: 'text'})
     cpf: String;
 
-    @Column()
+    @Column({ type: 'text'})
     contato: String;
 
     @Column({ type: 'text'})

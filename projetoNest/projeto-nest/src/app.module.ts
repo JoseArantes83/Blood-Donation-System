@@ -4,10 +4,7 @@ import { AppService } from './app.service';
 import { DoadorModule } from './doador/doador.module';
 import { DoacaoModule } from './doacao/doacao.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Doacao } from './doacao/entities/doacao.entity';
-// import { Doador } from './doador/entities/doador.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { join } from 'path';
 
 @Module({
   imports: [
