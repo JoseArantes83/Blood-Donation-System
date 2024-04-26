@@ -19,15 +19,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        // entities: [Doacao],
-        // entities: [join(process.cwd(), 'dist/**/doacao.entity.{js}')],
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         //Nao usar synchronize em projetos reais 
         synchronize: true,
       })
     }),
-    DoadorModule, 
-    DoacaoModule,
+    // DoadorModule, 
+    // DoacaoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
