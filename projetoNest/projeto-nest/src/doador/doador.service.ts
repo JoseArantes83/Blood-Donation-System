@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDoadorDto } from './dto/create-doador.dto';
 import { UpdateDoadorDto } from './dto/update-doador.dto';
+import { Repository, TypeORMError } from 'typeorm';
+import { Doador } from './entities/doador.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class DoadorService {
-  create(createDoadorDto: CreateDoadorDto) {
-    return 'This action adds a new doador';
+  constructor(
+    @InjectRepository(Doador)
+    private readonly doadorRepository:
+    Repository<Doador>){
+
+    }
+  async create(createDoadorDto: CreateDoadorDto) {
+    const doador = this.doadorRepository.create(createDoadorDto);
+    // return 'This action adds a new doador';
+    return await this.doadorRepository.save(doador);
   }
 
-  findAll() {
-    return `This action returns all doador`;
+  async findAll() {
+    // return `This action returns all doador`;
+    return await this.doadorRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} doador`;
+  async findOne(id: number) {
+    // return `This action returns a #${id} doador`;
+    return await this.doadorRepository.findOne({
+    where: { id }});
   }
 
-  update(id: number, updateDoadorDto: UpdateDoadorDto) {
-    return `This action updates a #${id} doador`;
+  async update(id: number, updateDoadorDto: UpdateDoadorDto) {
+    const doador = await this.findOne(id);
+    if(!doador){
+      throw new NotFoundException();
+    }
+    Object.assign(doador, updateDoadorDto);
+    // return `This action updates a #${id} doador`;
+    return await this.doadorRepository.save(doador);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} doador`;
+  async remove(id: number) {
+    const doador = await this.findOne(id);
+    if(!doador){
+      throw new NotFoundException();
+    }
+
+    // return `This action removes a #${id} doador`;
+    return await this.doadorRepository.remove(doador);
   }
 }

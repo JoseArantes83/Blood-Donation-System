@@ -11,7 +11,7 @@ export class Doador {
     id: number;
 
     @Column({ type: 'text'})
-    name: String;
+    nome: String;
 
     @Column({ type: 'text'})
     cpf: String;

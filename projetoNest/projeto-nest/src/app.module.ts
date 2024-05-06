@@ -24,8 +24,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         synchronize: true,
       })
     }),
-    // DoadorModule, 
-    // DoacaoModule,
+    DoadorModule, 
+    DoacaoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

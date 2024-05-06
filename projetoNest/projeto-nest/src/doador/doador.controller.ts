@@ -2,13 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DoadorService } from './doador.service';
 import { CreateDoadorDto } from './dto/create-doador.dto';
 import { UpdateDoadorDto } from './dto/update-doador.dto';
+import { CreateDoadorPipe } from './pipes/create-doador.pipe';
 
 @Controller('doador')
 export class DoadorController {
   constructor(private readonly doadorService: DoadorService) {}
 
   @Post()
-  create(@Body() createDoadorDto: CreateDoadorDto) {
+  create(@Body(new CreateDoadorPipe()) createDoadorDto: CreateDoadorDto) {
     return this.doadorService.create(createDoadorDto);
   }
 
