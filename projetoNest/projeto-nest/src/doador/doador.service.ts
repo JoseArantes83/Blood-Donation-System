@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDoadorDto } from './dto/create-doador.dto';
 import { UpdateDoadorDto } from './dto/update-doador.dto';
-import { Repository, TypeORMError } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Doador } from './entities/doador.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class DoadorService {
@@ -22,13 +21,16 @@ export class DoadorService {
 
   async findAll() {
     // return `This action returns all doador`;
-    return await this.doadorRepository.find();
+    return await this.doadorRepository.find({where: {situacao: 'ATIVO'}});
+    // return await this.doadorRepository.createQueryBuilder('doador').
+    // where('doador.situacao = :situacao', { situacao: 'ATIVO' }).
+    // getMany();
   }
 
-  async findOne(id: number) {
+  async findOne(codigo: number) {
     // return `This action returns a #${id} doador`;
     return await this.doadorRepository.findOne({
-    where: { id }});
+    where: { codigo, situacao: 'ATIVO' }});
   }
 
   async update(id: number, updateDoadorDto: UpdateDoadorDto) {
@@ -46,8 +48,11 @@ export class DoadorService {
     if(!doador){
       throw new NotFoundException();
     }
-
     // return `This action removes a #${id} doador`;
-    return await this.doadorRepository.remove(doador);
+    
+     doador.situacao = 'INATIVO';
+     return await this.doadorRepository.update(id, doador)
+
+    // return await this.doadorRepository.remove(doador);
   }
 }
