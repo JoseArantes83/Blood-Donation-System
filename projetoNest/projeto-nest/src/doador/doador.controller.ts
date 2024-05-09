@@ -17,6 +17,10 @@ export class DoadorController {
   findAll() {
     return this.doadorService.findAll();
   }
+  // @Post('/find')
+  // findAll(@Body()){
+
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -4,9 +4,9 @@ import { TipoSanguineo } from "../enums/tipoSanguineo";
 
 export class CreateDoadorDto {
 
-    @IsNotEmpty()
-    @IsNumber()
-    codigo: Number;
+    // @IsNotEmpty()
+    // @IsNumber()
+    // codigo: Number;
 
     @IsNotEmpty()
     @IsString()
@@ -21,11 +21,9 @@ export class CreateDoadorDto {
     contato: String;
 
     @IsNotEmpty()
-    @IsEnum(TipoSanguineo)
     tipoSanguineo: TipoSanguineo;
 
     @IsNotEmpty()
-    @IsEnum(RH)
     rh: RH;
 
 }

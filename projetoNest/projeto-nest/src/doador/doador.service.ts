@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpCode, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDoadorDto } from './dto/create-doador.dto';
 import { UpdateDoadorDto } from './dto/update-doador.dto';
 import { Repository } from 'typeorm';
@@ -10,49 +10,40 @@ export class DoadorService {
   constructor(
     @InjectRepository(Doador)
     private readonly doadorRepository:
-    Repository<Doador>){
-
-    }
+      Repository<Doador>) {
+  }
   async create(createDoadorDto: CreateDoadorDto) {
     const doador = this.doadorRepository.create(createDoadorDto);
-    // return 'This action adds a new doador';
     return await this.doadorRepository.save(doador);
   }
 
   async findAll() {
-    // return `This action returns all doador`;
-    return await this.doadorRepository.find({where: {situacao: 'ATIVO'}});
-    // return await this.doadorRepository.createQueryBuilder('doador').
-    // where('doador.situacao = :situacao', { situacao: 'ATIVO' }).
-    // getMany();
+    return await this.doadorRepository.find({ where: { situacao: 'ATIVO' } });
   }
 
   async findOne(codigo: number) {
-    // return `This action returns a #${id} doador`;
     return await this.doadorRepository.findOne({
-    where: { codigo, situacao: 'ATIVO' }});
+      where: { codigo, situacao: 'ATIVO' }
+    });
   }
 
+  //NÃO É CERTO USAR O SAVE POIS MEXE NO CODIGO DENTRO DO BANCO DE DADOS
   async update(id: number, updateDoadorDto: UpdateDoadorDto) {
+
     const doador = await this.findOne(id);
-    if(!doador){
+    if (!doador) {
       throw new NotFoundException();
     }
-    Object.assign(doador, updateDoadorDto);
-    // return `This action updates a #${id} doador`;
-    return await this.doadorRepository.save(doador);
+    return await this.doadorRepository.update(id, updateDoadorDto);
   }
 
   async remove(id: number) {
     const doador = await this.findOne(id);
-    if(!doador){
+    if (!doador) {
       throw new NotFoundException();
     }
-    // return `This action removes a #${id} doador`;
-    
-     doador.situacao = 'INATIVO';
-     return await this.doadorRepository.update(id, doador)
 
-    // return await this.doadorRepository.remove(doador);
+    doador.situacao = 'INATIVO';
+    return await this.doadorRepository.update(id, doador)
   }
 }
