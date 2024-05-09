@@ -3,6 +3,7 @@ import { DoadorService } from './doador.service';
 import { CreateDoadorDto } from './dto/create-doador.dto';
 import { UpdateDoadorDto } from './dto/update-doador.dto';
 import { CreateDoadorPipe } from './pipes/create-doador.pipe';
+import { GetDoadorDto } from './dto/get-doador.dto';
 
 @Controller('doador')
 export class DoadorController {
@@ -17,10 +18,11 @@ export class DoadorController {
   findAll() {
     return this.doadorService.findAll();
   }
-  // @Post('/find')
-  // findAll(@Body()){
 
-  // }
+  @Post('/query')
+  findAllFiltered(@Body() getDoadorDto: GetDoadorDto){
+    return this.doadorService.findAllUsingFilter(getDoadorDto);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

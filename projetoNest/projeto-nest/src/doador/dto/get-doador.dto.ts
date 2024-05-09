@@ -2,24 +2,18 @@ import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { RH } from "../enums/rh";
 import { TipoSanguineo } from "../enums/tipoSanguineo";
 
-export class CreateDoadorDto {
+export class GetDoadorDto {
 
-    @IsNotEmpty()
-    @IsString()
+    codigo: Number;
+
     nome: String;
 
-    @IsNotEmpty()
-    @IsString()
     cpf: String;
 
-    @IsNotEmpty()
-    @IsString()
     contato: String;
 
-    @IsNotEmpty()
-    tipoSanguineo: TipoSanguineo;
+    tiposSanguineo: TipoSanguineo;
 
-    @IsNotEmpty()
     rh: RH;
 
 }
