@@ -1,4 +1,4 @@
-import { HttpCode, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDoadorDto } from './dto/create-doador.dto';
 import { UpdateDoadorDto } from './dto/update-doador.dto';
 import { Repository } from 'typeorm';
@@ -44,8 +44,6 @@ export class DoadorService {
       return query;
     };
     
-
-    // Use the function to build and execute the query
     return buildQuery(dto).getMany();
   }
 

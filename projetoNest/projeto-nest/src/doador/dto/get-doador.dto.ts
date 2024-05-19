@@ -1,4 +1,3 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { RH } from "../enums/rh";
 import { TipoSanguineo } from "../enums/tipoSanguineo";
 
@@ -12,7 +11,7 @@ export class GetDoadorDto {
 
     contato: String;
 
-    tiposSanguineo: TipoSanguineo;
+    tipoSanguineo: TipoSanguineo;
 
     rh: RH;
 

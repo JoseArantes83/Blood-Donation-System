@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 import { RH } from "../enums/rh";
 import { TipoSanguineo } from "../enums/tipoSanguineo";
 
