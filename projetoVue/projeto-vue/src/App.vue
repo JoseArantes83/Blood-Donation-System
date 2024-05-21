@@ -2,26 +2,35 @@
 // Onde fica o código JS e TS
 import Botoes from "./components/Botoes.vue";
 import Formulario from "./components/Formulario.vue";
+import CadastroDoador from "./components/CadastroDoador.vue";
+import BuscaDoador from "./components/BuscaDoador.vue";
 
 export default {
   components: {
     Botoes,
-    Formulario,
+    CadastroDoador,
+    BuscaDoador,
   },
 };
 </script>
 
 <template>
-  <!-- Onde fica o HTML -->
   <header></header>
 
   <main>
-    <Formulario />
+
+    <nav>
+      <router-link to="/cadastrodoador">Cadastrar doadores</router-link> |
+      <router-link to="/buscadoador">Buscar doadores</router-link>
+
+    </nav>
+    <router-view />
+
+
   </main>
 </template>
 
 <style>
-/* Onde fica o código CSS */
 * {
   margin: 5px;
   padding: 1px;
