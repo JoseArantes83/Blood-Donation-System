@@ -31,9 +31,6 @@ export class Doador {
     @Column({ type: 'text', default: 'ATIVO' })
     situacao: String;
 
-    @Column({ type: 'text', default: 'ATIVO' })
-    situacao: String
-
     @OneToMany(() => Doacao, (doacao) => doacao.doador)
     doacoes: Doacao[];
 }
