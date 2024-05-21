@@ -10,27 +10,30 @@ export class Doador {
     @PrimaryGeneratedColumn({ name: 'codigo', type: 'bigint' })
     codigo: Number;
 
-    @Column({ type: 'text'})
+    @Column({ type: 'text' })
     nome: String;
 
-    @Column({ type: 'text'})
+    @Column({ type: 'text' })
     cpf: String;
 
-    @Column({ type: 'text'})
+    @Column({ type: 'text' })
     contato: String;
 
-    @Column({ type: 'text'})
+    @Column({ type: 'text' })
     tipoSanguineo: TipoSanguineo;
 
-    @Column({ type: 'text'})
-    rh : RH
+    @Column({ type: 'text' })
+    rh: RH;
 
     @Column({ type: 'boolean', default: false })
-    tipoRhCorretos: boolean
+    tipoRhCorretos: boolean;
+
+    @Column({ type: 'text', default: 'ATIVO' })
+    situacao: String;
 
     @Column({ type: 'text', default: 'ATIVO' })
     situacao: String
 
     @OneToMany(() => Doacao, (doacao) => doacao.doador)
-    doacoes: Doacao[]
+    doacoes: Doacao[];
 }

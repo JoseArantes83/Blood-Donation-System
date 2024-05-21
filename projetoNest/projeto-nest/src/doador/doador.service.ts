@@ -31,11 +31,11 @@ export class DoadorService {
 
       //Para cada um dos parâmetros recebidos
       Object.keys(body).forEach(key => {
-          if(!isEmpty(body[key])){
-            query.andWhere(`doador.${key} = :${key}`, { [key]: body[key] });
-          } else {
-            console.log(`Campo vazio ou indefinido: ${key}`);
-          }
+        if (!isEmpty(body[key])) {
+          query.andWhere(`doador.${key} = :${key}`, { [key]: body[key] });
+        } else {
+          console.log(`Campo vazio ou indefinido: ${key}`);
+        }
       });
 
       //Faz com a query não contenha a situação de cada doador
@@ -43,7 +43,7 @@ export class DoadorService {
 
       return query;
     };
-    
+
     return buildQuery(dto).getMany();
   }
 
