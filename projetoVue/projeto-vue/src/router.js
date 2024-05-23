@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CadastroDoador from './components/CadastroDoador.vue';
 import BuscaDoador from './components/BuscaDoador.vue';
+import BuscaRealizada from './components/BuscaRealizada.vue'
 
 const routes = [
     {
@@ -13,6 +14,11 @@ const routes = [
         name: 'BuscaDoador',
         component: BuscaDoador
     },
+    {
+        path: '/buscarealizada',
+        name: 'BuscaRealizada',
+        component: BuscaRealizada
+    }
 ];
 
 const router = createRouter({

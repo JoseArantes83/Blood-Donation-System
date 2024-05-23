@@ -22,7 +22,6 @@ export default {
     <nav>
       <router-link to="/cadastrodoador">Cadastrar doadores</router-link> |
       <router-link to="/buscadoador">Buscar doadores</router-link>
-
     </nav>
     <router-view />
 

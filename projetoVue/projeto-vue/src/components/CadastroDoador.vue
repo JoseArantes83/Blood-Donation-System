@@ -66,49 +66,6 @@ export default {
                     });
             }
         },
-        // getEnumString(value) {
-        //     return this.enum[value] || 'valor desconhecido';
-        // },
-
-        // enviarFormulario() {
-        //     fetch('http://localhost:3000/formulario', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             nome: this.userData.nome,
-        //             idade: this.userData.idade,
-        //             casado: this.userData.casado,
-        //             areaAtuacao: this.userData.areaAtuacao,
-        //             sexo: this.userData.sexo,
-        //         }),
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             // Aqui você pode processar a resposta do servidor
-        //             // Por exemplo, exibir os dados recebidos
-        //             this.userData.tudo = data;
-        //             console.log(data);
-        //         });
-        // },
-        // methods: {
-        //     async enviarFormulario() {
-        //         try {
-        //             // Tinha esquecido de colocar a rota correta, que é a do back-end http://localhost:3000
-        //             const response = await axios.post("http://localhost:3000/formulario", {
-        //                 nome: this.nome,
-        //                 idade: this.idade,
-        //                 casado: this.casado,
-        //                 areaAtuacao: this.areaAtuacao,
-        //                 sexo: this.sexo,
-        //             });
-        //             console.log(response.data);
-        //         } catch (error) {
-        //             console.error(error);
-        //         }
-        //     },
-        // },
     },
 };
 </script>

@@ -4,9 +4,11 @@ import useVuelidate from "@vuelidate/core";
 import {
     required,
 } from "@vuelidate/validators";
+import BuscaRealizada from "./BuscaRealizada.vue";
 
 export default {
     name: "BuscaDoador",
+    components: { BuscaRealizada },
     setup() {
         // Essa propriedade é de fundamental importância, pois é com ela que consigo usar o v$ para validações.
         return { v$: useVuelidate() };
@@ -20,6 +22,9 @@ export default {
                 contato: "",
                 tipoSanguineo: "",
                 rh: "",
+            },
+            dadosBusca: {
+                dadosDadosBusca: {}
             },
         };
     },
@@ -51,16 +56,21 @@ export default {
                     .then((data) => {
                         // Aqui você pode processar a resposta do servidor
                         // Por exemplo, exibir os dados recebidos
-                        this.userData.tudo = data;
-                        console.log(data);
+                        this.dadosBusca.dadosDadosBusca = data;
+                        console.log(this.dadosBusca.dadosDadosBusca);
                     });
             }
         },
+        goToBuscaRealizda() {
+            const url = '/buscarealizada'; // Replace with your actual path
+            window.open(url, '_blank');
+        }
     },
 };
 </script>
 
 <template>
+    <BuscaRealizada :dadosBusca="dadosBusca.dadosDadosBusca" />
     <form @submit.prevent="enviarCadastroDoador">
         <fieldset>
             <label for="codigo">Codigo:</label>
@@ -107,8 +117,8 @@ export default {
             <input v-model="userData.rh" type="radio" name="rh" id="todosRh" value="" />
             <label for="todosRh">Todas as opções</label><br />
             <br />
-
             <button type="submit">Buscar</button>
+            <!-- <button @click="goToBuscaRealizda">Buscar</button> -->
         </fieldset>
     </form>
 </template>
