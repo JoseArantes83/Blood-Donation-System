@@ -58,6 +58,7 @@ export default {
                         // Aqui você pode processar a resposta do servidor
                         console.log(data);
                     });
+                location.reload();
             }
         },
     },
