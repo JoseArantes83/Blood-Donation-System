@@ -1,7 +1,4 @@
 <script>
-import CadastroDoador from "./CadastroDoador.vue";
-import BuscaDoador from "./BuscaDoador.vue";
-
 export default {
     name: "TelaInicial",
 };
