@@ -18,6 +18,15 @@ export default {
         };
     },
     methods: {
+        remover(item) {
+            fetch(`http://localhost:3000/doador/${item.codigo}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            location.reload();
+        },
         alterar(item) {
             this.nao_alterando = true;
             fetch(`http://localhost:3000/doador/${item.codigo}`, {
@@ -33,11 +42,7 @@ export default {
                     tipoSanguineo: item.tipoSanguineo,
                     rh: item.rh,
                 })
-            })
-                .then((response) => response.json())
-                .then((data) => {
-
-                });
+            });
         },
         goToAlterando(item) {
             this.objAlterando = item;
