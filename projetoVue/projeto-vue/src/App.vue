@@ -1,13 +1,12 @@
 <script>
 // Onde fica o código JS e TS
-import Botoes from "./components/Botoes.vue";
-import Formulario from "./components/Formulario.vue";
 import CadastroDoador from "./components/CadastroDoador.vue";
 import BuscaDoador from "./components/BuscaDoador.vue";
+import TelaInicial from "./components/TelaInicial.vue";
 
 export default {
   components: {
-    Botoes,
+    TelaInicial,
     CadastroDoador,
     BuscaDoador,
   },
@@ -19,12 +18,7 @@ export default {
 
   <main>
 
-    <nav>
-      <router-link to="/cadastrodoador">Cadastrar doadores</router-link> |
-      <router-link to="/buscadoador">Buscar doadores</router-link>
-    </nav>
     <router-view />
-
 
   </main>
 </template>

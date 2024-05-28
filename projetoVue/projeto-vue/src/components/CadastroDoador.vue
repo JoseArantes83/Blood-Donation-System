@@ -19,13 +19,6 @@ export default {
                 contato: "",
                 tipoSanguineo: "",
                 rh: "",
-                // enum: {
-                //     1: 'v1',
-                //     2: 'v2',
-                //     3: 'v3',
-                //     4: 'v4',
-                //     5: 'v5',
-                // },
             },
         };
     },
@@ -39,6 +32,9 @@ export default {
         },
     },
     methods: {
+        goToTelaInicial() {
+            this.$router.push('/telainicial');
+        },
         enviarCadastroDoador() {
             this.v$.$touch();
             if (this.v$.$invalid) {
@@ -60,8 +56,6 @@ export default {
                     .then((response) => response.json())
                     .then((data) => {
                         // Aqui você pode processar a resposta do servidor
-                        // Por exemplo, exibir os dados recebidos
-                        this.userData.tudo = data;
                         console.log(data);
                     });
             }
@@ -106,6 +100,7 @@ export default {
             <button type="submit">Cadastrar</button>
         </fieldset>
     </form>
+    <button @click="goToTelaInicial">Voltar</button>
 </template>
 
 <style lang="scss" scoped>

@@ -1,20 +1,14 @@
 <script>
-// import axios from "axios";
 import useVuelidate from "@vuelidate/core";
-import {
-    required,
-} from "@vuelidate/validators";
-import BuscaRealizada from "./BuscaRealizada.vue";
 
 export default {
     name: "BuscaDoador",
-    components: { BuscaRealizada },
     setup() {
-        // Essa propriedade é de fundamental importância, pois é com ela que consigo usar o v$ para validações.
         return { v$: useVuelidate() };
     },
     data() {
         return {
+            nao_buscou: true, // booleano para dizer qual template apresentar: tela de busca ou de dados buscados
             userData: {
                 codigo: "",
                 nome: "",
@@ -23,17 +17,22 @@ export default {
                 tipoSanguineo: "",
                 rh: "",
             },
-            dadosBusca: {
-                dadosDadosBusca: {}
-            },
+            dadosBusca: Object,
         };
     },
     validations: {
-        userData: {
-        },
     },
     methods: {
-        enviarCadastroDoador() {
+        goToBuscaDoador() {
+            this.nao_buscou = true;
+        },
+        goToTelaInicial() {
+            this.$router.push('/telainicial');
+        },
+        goToBuscaRealizada() {
+            this.$router.push('/buscarealizada');
+        },
+        enviarBuscaDoador() {
             this.v$.$touch();
             if (this.v$.$invalid) {
                 alert("Há campos com valores inválidos! Tente novamente.");
@@ -55,72 +54,100 @@ export default {
                     .then((response) => response.json())
                     .then((data) => {
                         // Aqui você pode processar a resposta do servidor
-                        // Por exemplo, exibir os dados recebidos
-                        this.dadosBusca.dadosDadosBusca = data;
-                        console.log(this.dadosBusca.dadosDadosBusca);
+                        this.nao_buscou = false;
+                        this.dadosBusca = data;
                     });
             }
         },
-        goToBuscaRealizda() {
-            const url = '/buscarealizada'; // Replace with your actual path
-            window.open(url, '_blank');
-        }
+
     },
 };
 </script>
 
 <template>
-    <BuscaRealizada :dadosBusca="dadosBusca.dadosDadosBusca" />
-    <form @submit.prevent="enviarCadastroDoador">
-        <fieldset>
-            <label for="codigo">Codigo:</label>
-            <input v-model="userData.codigo" type="text" id="codigo" placeholder="Insira um código" autofocus />
-            <br />
-            <!-- <label id="erro" v-if="v$.userData.nome.$error">Valor inválido!</label><br /> -->
+    <div v-if="nao_buscou">
+        <form @submit.prevent="enviarBuscaDoador">
+            <!-- .prevent previne que o form atue de forma padrão e atualize a página com o submit -->
+            <fieldset>
+                <label for="codigo">Codigo:</label>
+                <input v-model="userData.codigo" type="text" id="codigo" placeholder="Insira um código" autofocus />
+                <br />
+                <!-- <label id="erro" v-if="v$.userData.nome.$error">Valor inválido!</label><br /> -->
 
-            <label for="nome">Nome:</label>
-            <input v-model="userData.nome" type="text" id="nome" placeholder="Insira um nome" autofocus />
-            <br />
-            <!-- <label id="erro" v-if="v$.userData.nome.$error">Valor inválido!</label><br /> -->
+                <label for="nome">Nome:</label>
+                <input v-model="userData.nome" type="text" id="nome" placeholder="Insira um nome" autofocus />
+                <br />
+                <!-- <label id="erro" v-if="v$.userData.nome.$error">Valor inválido!</label><br /> -->
 
-            <label for="cpf">CPF:</label>
-            <input v-model="userData.cpf" type="text" id="cpf" placeholder="Insira um CPF" />
-            <br />
-            <!-- <label id="erro" v-if="v$.userData.cpf.$error">Valor inválido!</label><br /> -->
+                <label for="cpf">CPF:</label>
+                <input v-model="userData.cpf" type="text" id="cpf" placeholder="Insira um CPF" />
+                <br />
+                <!-- <label id="erro" v-if="v$.userData.cpf.$error">Valor inválido!</label><br /> -->
 
-            <label for="contato">Contato:</label>
-            <input v-model="userData.contato" type="text" id="contato" placeholder="Insira um contato" autofocus />
-            <br />
-            <!-- <label id="erro" v-if="v$.userData.contato.$error">Este é um campo obrigatório!</label><br /> -->
+                <label for="contato">Contato:</label>
+                <input v-model="userData.contato" type="text" id="contato" placeholder="Insira um contato" autofocus />
+                <br />
+                <!-- <label id="erro" v-if="v$.userData.contato.$error">Este é um campo obrigatório!</label><br /> -->
 
-            <label>Tipo Sanguíneo:</label>
-            <br />
-            <!-- <label id="erro" v-if="v$.userData.tipoSanguineo.$error">Este é um campo obrigatório!</label><br /> -->
-            <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="a" value="a" />
-            <label for="a">A</label><br />
-            <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="b" value="b" />
-            <label for="b">B</label><br />
-            <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="ab" value="ab" />
-            <label for="ab">AB</label><br />
-            <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="o" value="o" />
-            <label for="o">O</label><br />
-            <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="todos" value="" />
-            <label for="todos">Todas as opções</label><br /><br />
+                <label>Tipo Sanguíneo:</label>
+                <br />
+                <!-- <label id="erro" v-if="v$.userData.tipoSanguineo.$error">Este é um campo obrigatório!</label><br /> -->
+                <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="a" value="a" />
+                <label for="a">A</label><br />
+                <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="b" value="b" />
+                <label for="b">B</label><br />
+                <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="ab" value="ab" />
+                <label for="ab">AB</label><br />
+                <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="o" value="o" />
+                <label for="o">O</label><br />
+                <input v-model="userData.tipoSanguineo" type="radio" name="tipoSanguineo" id="todos" value="" />
+                <label for="todos">Todas as opções</label><br /><br />
 
-            <label>RH:</label>
-            <br />
-            <!-- <label id="erro" v-if="v$.userData.rh.$error">Este é um campo obrigatório!</label><br /> -->
-            <input v-model="userData.rh" type="radio" name="rh" id="positivo" value="positivo" />
-            <label for="positivo">+ (positivo)</label><br />
-            <input v-model="userData.rh" type="radio" name="rh" id="negativo" value="negativo" />
-            <label for="negativo">- (negativo)</label><br />
-            <input v-model="userData.rh" type="radio" name="rh" id="todosRh" value="" />
-            <label for="todosRh">Todas as opções</label><br />
-            <br />
-            <button type="submit">Buscar</button>
-            <!-- <button @click="goToBuscaRealizda">Buscar</button> -->
-        </fieldset>
-    </form>
+                <label>RH:</label>
+                <br />
+                <!-- <label id="erro" v-if="v$.userData.rh.$error">Este é um campo obrigatório!</label><br /> -->
+                <input v-model="userData.rh" type="radio" name="rh" id="positivo" value="positivo" />
+                <label for="positivo">+ (positivo)</label><br />
+                <input v-model="userData.rh" type="radio" name="rh" id="negativo" value="negativo" />
+                <label for="negativo">- (negativo)</label><br />
+                <input v-model="userData.rh" type="radio" name="rh" id="todosRh" value="" />
+                <label for="todosRh">Todas as opções</label><br />
+                <br />
+                <button type="submit">Buscar</button>
+            </fieldset>
+        </form>
+        <button @click="goToTelaInicial">Voltar</button>
+    </div>
+    <div v-else>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Contato</th>
+                    <th>Tipo Sanguíneo</th>
+                    <th>RH</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in dadosBusca" :key="item.codigo">
+                    <td>{{ item.codigo }}</td>
+                    <td>{{ item.nome }}</td>
+                    <td>{{ item.cpf }}</td>
+                    <td>{{ item.contato }}</td>
+                    <td>{{ item.tipoSanguineo }}</td>
+                    <td>{{ item.rh }}</td>
+                    <td><button @click="alterar(item)">Alterar</button></td>
+                    <td><button @click="remover(item)">Remover</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <button @click="goToBuscaDoador">Voltar</button>
+    </div>
 </template>
 
 <style lang="scss" scoped>
