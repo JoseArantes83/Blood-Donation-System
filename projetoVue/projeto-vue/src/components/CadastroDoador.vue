@@ -1,9 +1,7 @@
 <script>
 // import axios from "axios";
 import useVuelidate from "@vuelidate/core";
-import {
-    required,
-} from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 
 export default {
     name: "CadastroDoador",
@@ -22,7 +20,7 @@ export default {
             },
         };
     },
-    validations: { // ATUALIZAR VALIDAÇÕES!!!
+    validations: {
         userData: {
             nome: { required },
             cpf: { required },
@@ -70,11 +68,11 @@ export default {
         <fieldset>
             <label for="nome">Nome:</label>
             <input v-model="userData.nome" type="text" id="nome" placeholder="Insira seu nome" autofocus />
-            <label id="erro" v-if="v$.userData.nome.$error">Valor inválido!</label><br />
+            <label id="erro" v-if="v$.userData.nome.$error">Este é um campo obrigatório!</label><br />
 
             <label for="cpf">CPF:</label>
             <input v-model="userData.cpf" type="text" id="cpf" placeholder="Insira seu CPF" />
-            <label id="erro" v-if="v$.userData.cpf.$error">Valor inválido!</label><br />
+            <label id="erro" v-if="v$.userData.cpf.$error">Este é um campo obrigatório!</label><br />
 
             <label for="contato">Contato:</label>
             <input v-model="userData.contato" type="text" id="contato" placeholder="Insira seu contato" autofocus />
