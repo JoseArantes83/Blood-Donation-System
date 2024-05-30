@@ -75,7 +75,7 @@ export default {
             <label id="erro" v-if="v$.userData.cpf.$error">Este é um campo obrigatório!</label><br />
 
             <label for="contato">Contato:</label>
-            <input v-model="userData.contato" type="text" id="contato" placeholder="Insira seu contato" autofocus />
+            <input v-model="userData.contato" type="text" id="contato" placeholder="Insira seu contato" />
             <label id="erro" v-if="v$.userData.contato.$error">Este é um campo obrigatório!</label><br />
 
             <label>Tipo Sanguíneo:</label>

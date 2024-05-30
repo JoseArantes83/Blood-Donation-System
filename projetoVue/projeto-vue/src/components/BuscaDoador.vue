@@ -202,7 +202,6 @@ export default {
             </form>
             <button @click="goToListaDados">Voltar</button>
         </div>
-
     </div>
 </template>
 
