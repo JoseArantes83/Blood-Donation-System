@@ -34,7 +34,7 @@ export class DoadorService {
         if (!isEmpty(body[key])) {
           query.andWhere(`doador.${key} = :${key}`, { [key]: body[key] });
         } else {
-          console.log(`Campo vazio ou indefinido: ${key}`);
+          // console.log(`Campo vazio ou indefinido: ${key}`);
         }
       });
 
