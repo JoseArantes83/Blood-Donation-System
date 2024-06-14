@@ -9,66 +9,67 @@ import { isEmpty } from 'class-validator';
 
 @Injectable()
 export class DoadorService {
-  constructor(
-    @InjectRepository(Doador)
-    private readonly doadorRepository:
-      Repository<Doador>) {
-  }
-  async create(createDoadorDto: CreateDoadorDto) {
-    const doador = this.doadorRepository.create(createDoadorDto);
-    return await this.doadorRepository.save(doador);
-  }
+	constructor(
+		@InjectRepository(Doador)
+		private readonly doadorRepository:
+			Repository<Doador>) {
+	}
 
-  async findAll() {
-    return await this.doadorRepository.find({ where: { situacao: 'ATIVO' } });
-  }
+	async create(createDoadorDto: CreateDoadorDto) {
+		const doador = this.doadorRepository.create(createDoadorDto);
+		return await this.doadorRepository.save(doador);
+	}
 
-  async findAllUsingFilter(dto: GetDoadorDto) {
+	async findAll() {
+		return await this.doadorRepository.find({ where: { situacao: 'ATIVO' } });
+	}
 
-    const buildQuery = (body: Partial<GetDoadorDto>) => {
-      let query = this.doadorRepository.createQueryBuilder('doador');
-      query.where('doador.situacao = :situacao', { situacao: 'ATIVO' });
+	async findAllUsingFilter(dto: GetDoadorDto) {
 
-      //Para cada um dos parâmetros recebidos
-      Object.keys(body).forEach(key => {
-        if (!isEmpty(body[key])) {
-          query.andWhere(`doador.${key} = :${key}`, { [key]: body[key] });
-        } else {
-          // console.log(`Campo vazio ou indefinido: ${key}`);
-        }
-      });
+		const buildQuery = (body: Partial<GetDoadorDto>) => {
+			let query = this.doadorRepository.createQueryBuilder('doador');
+			query.where('doador.situacao = :situacao', { situacao: 'ATIVO' });
 
-      //Faz com a query não contenha a situação de cada doador
-      query.select(['doador.codigo', 'doador.nome', 'doador.cpf', 'doador.contato', 'doador.tipoSanguineo', 'doador.rh']);
+			//Para cada um dos parâmetros recebidos
+			Object.keys(body).forEach(key => {
+				if (!isEmpty(body[key])) {
+					query.andWhere(`doador.${key} = :${key}`, { [key]: body[key] });
+				} else {
+					// console.log(`Campo vazio ou indefinido: ${key}`);
+				}
+			});
 
-      return query;
-    };
+			//Faz com a query não contenha a situação de cada doador
+			query.select(['doador.codigo', 'doador.nome', 'doador.cpf', 'doador.contato', 'doador.tipoSanguineo', 'doador.rh']);
 
-    return buildQuery(dto).getMany();
-  }
+			return query;
+		};
 
-  async findOne(codigo: number) {
-    return await this.doadorRepository.findOne({
-      where: { codigo, situacao: 'ATIVO' }
-    });
-  }
+		return buildQuery(dto).getMany();
+	}
 
-  async update(id: number, updateDoadorDto: UpdateDoadorDto) {
+	async findOne(codigo: number) {
+		return await this.doadorRepository.findOne({
+			where: { codigo, situacao: 'ATIVO' }
+		});
+	}
 
-    const doador = await this.findOne(id);
-    if (!doador) {
-      throw new NotFoundException();
-    }
-    return await this.doadorRepository.update(id, updateDoadorDto);
-  }
+	async update(id: number, updateDoadorDto: UpdateDoadorDto) {
 
-  async remove(id: number) {
-    const doador = await this.findOne(id);
-    if (!doador) {
-      throw new NotFoundException();
-    }
+		const doador = await this.findOne(id);
+		if (!doador) {
+			throw new NotFoundException();
+		}
+		return await this.doadorRepository.update(id, updateDoadorDto);
+	}
 
-    doador.situacao = 'INATIVO';
-    return await this.doadorRepository.update(id, doador)
-  }
+	async remove(id: number) {
+		const doador = await this.findOne(id);
+		if (!doador) {
+			throw new NotFoundException();
+		}
+
+		doador.situacao = 'INATIVO';
+		return await this.doadorRepository.update(id, doador)
+	}
 }

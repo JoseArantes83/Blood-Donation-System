@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateDoacaoDto } from './dto/create-doacao.dto';
 import { UpdateDoacaoDto } from './dto/update-doacao.dto';
+import { Doacao } from './entities/doacao.entity';
 
 @Injectable()
 export class DoacaoService {
-  create(createDoacaoDto: CreateDoacaoDto) {
-    return 'This action adds a new doacao';
-  }
+	constructor(
+		@InjectRepository(Doacao)
+		private doacaoRepository: Repository<Doacao>) { }
 
-  findAll() {
-    return `This action returns all doacao`;
-  }
+	async create(createDoacaoDto: CreateDoacaoDto) {
+		const doacao = this.doacaoRepository.create(createDoacaoDto);
+		return await this.doacaoRepository.save(doacao);
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} doacao`;
-  }
+	async findAll() {
+		return await this.doacaoRepository.find({ where: { situacao: 'ATIVO' } });
+	}
 
-  update(id: number, updateDoacaoDto: UpdateDoacaoDto) {
-    return `This action updates a #${id} doacao`;
-  }
+	findOne(id: number) {
+		return `This action returns a #${id} doacao`;
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} doacao`;
-  }
+	update(id: number, updateDoacaoDto: UpdateDoacaoDto) {
+		return `This action updates a #${id} doacao`;
+	}
+
+	remove(id: number) {
+		return `This action removes a #${id} doacao`;
+	}
 }

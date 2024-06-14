@@ -1,4 +1,4 @@
-export enum RH{
+export enum RH {
     POSITIVO = "positivo",
     NEGATIVO = "negativo"
 }

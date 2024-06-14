@@ -1,1 +1,1 @@
-export class CreateDoacaoDto {}
+export class CreateDoacaoDto { }

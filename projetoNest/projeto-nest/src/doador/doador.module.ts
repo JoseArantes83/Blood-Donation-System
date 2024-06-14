@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Doador } from './entities/doador.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Doador])],
-  controllers: [DoadorController],
-  providers: [DoadorService],
+	imports: [TypeOrmModule.forFeature([Doador])],
+	controllers: [DoadorController],
+	providers: [DoadorService],
 })
-export class DoadorModule {}
+export class DoadorModule { }

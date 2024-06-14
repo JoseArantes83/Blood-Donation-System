@@ -14,5 +14,4 @@ export class GetDoadorDto {
     tipoSanguineo: TipoSanguineo;
 
     rh: RH;
-
 }
