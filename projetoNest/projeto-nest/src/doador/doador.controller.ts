@@ -24,6 +24,11 @@ export class DoadorController {
         return this.doadorService.findAllUsingFilter(getDoadorDto);
     }
 
+    @Post(':id/doacoes')
+    findAllDonationsByDoadorCodigo(@Param('id') doadorId: number) {
+        return this.doadorService.findAllDonationsByDoadorCodigo(doadorId);
+    }
+
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.doadorService.findOne(+id);

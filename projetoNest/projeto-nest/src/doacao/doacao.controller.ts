@@ -17,17 +17,29 @@ export class DoacaoController {
 		return this.doacaoService.findAll();
 	}
 
-	@Get(':id')
+	// @Get(':id/doacoes') // a fazer
+	// findAllDonations(@Param('id') doadorId: string) {
+	// 	return this.doacaoService.findAllDonations(+doadorId);
+	// }
+
+
+
+	@Post('/query') // a fazer
+	findAllFiltered(@Body() getDoacaoDto: CreateDoacaoDto) {
+		return this.doacaoService.findAllUsingFilter(getDoacaoDto);
+	}
+
+	@Get(':id') // a fazer
 	findOne(@Param('id') id: string) {
 		return this.doacaoService.findOne(+id);
 	}
 
-	@Patch(':id')
+	@Patch(':id') // a fazer
 	update(@Param('id') id: string, @Body() updateDoacaoDto: UpdateDoacaoDto) {
 		return this.doacaoService.update(+id, updateDoacaoDto);
 	}
 
-	@Delete(':id')
+	@Delete(':id') // a fazer
 	remove(@Param('id') id: string) {
 		return this.doacaoService.remove(+id);
 	}

@@ -6,6 +6,7 @@ import { Doador } from './entities/doador.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GetDoadorDto } from './dto/get-doador.dto';
 import { isEmpty } from 'class-validator';
+import { Doacao } from 'src/doacao/entities/doacao.entity';
 
 @Injectable()
 export class DoadorService {
@@ -47,6 +48,16 @@ export class DoadorService {
 
 		return buildQuery(dto).getMany();
 	}
+
+	async findAllDonationsByDoadorCodigo(codigo: number): Promise<Doacao[]> {
+		const doador = await this.doadorRepository.findOne({
+			where: { codigo },
+			relations: ['doacoes'],
+		});
+
+		return doador ? doador.doacoes : [];
+	}
+
 
 	async findOne(codigo: number) {
 		return await this.doadorRepository.findOne({
