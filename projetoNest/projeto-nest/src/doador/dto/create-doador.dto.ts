@@ -6,15 +6,15 @@ export class CreateDoadorDto {
 
     @IsNotEmpty()
     @IsString()
-    nome: String;
+    nome: string;
 
     @IsNotEmpty()
     @IsString()
-    cpf: String;
+    cpf: string;
 
     @IsNotEmpty()
     @IsString()
-    contato: String;
+    contato: string;
 
     @IsNotEmpty()
     tipoSanguineo: TipoSanguineo;
@@ -22,4 +22,5 @@ export class CreateDoadorDto {
     @IsNotEmpty()
     rh: RH;
 
+    tipoRhCorretos: boolean;
 }

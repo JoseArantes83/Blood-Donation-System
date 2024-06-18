@@ -40,7 +40,7 @@ export class DoadorService {
 			});
 
 			//Faz com a query não contenha a situação de cada doador
-			query.select(['doador.codigo', 'doador.nome', 'doador.cpf', 'doador.contato', 'doador.tipoSanguineo', 'doador.rh']);
+			query.select(['doador.codigo', 'doador.nome', 'doador.cpf', 'doador.contato', 'doador.tipoSanguineo', 'doador.rh', 'doador.tipoRhCorretos']);
 
 			return query;
 		};
