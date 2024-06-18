@@ -1,5 +1,6 @@
 <script>
 import Modal from './Modal.vue';
+import DoadorService from '@/services/DoadorService';
 
 export default {
 	name: "BuscaDoador",
@@ -14,6 +15,7 @@ export default {
 				contato: "",
 				tipoSanguineo: "",
 				rh: "",
+				tipoRhCorretos: ""
 			},
 			objAlterando: Object,
 			dadosBusca: Object,
@@ -27,37 +29,18 @@ export default {
 			this.isModalVisible = true; // Abre o modal
 		},
 		removeConfirmed(item) {
-			this.remover(item); // Chama método para remover
-			this.isModalVisible = false; // Fecha o modal após a remoção
+            DoadorService.remover(item.codigo).then(() => {
+			    this.isModalVisible = false; // Fecha o modal após a remoção
+                location.reload();
+            });
 		},
 		cancelRemove() {
 			this.isModalVisible = false; // Fecha o modal sem realizar nenhuma ação
 		},
-		remover(item) {
-			fetch(`http://localhost:3000/doador/${item.codigo}`, {
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			location.reload();
-		},
 		alterar(item) {
-			this.nao_alterando = true;
-			fetch(`http://localhost:3000/doador/${item.codigo}`, {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					codigo: item.codigo,
-					nome: item.nome,
-					cpf: item.cpf,
-					contato: item.contato,
-					tipoSanguineo: item.tipoSanguineo,
-					rh: item.rh,
-				})
-			});
+            DoadorService.alterar(item).then(() => {
+                this.nao_alterando = true;
+            })
 		},
 		goToAlterando(item) {
 			this.objAlterando = item;
@@ -77,26 +60,10 @@ export default {
 			this.$router.push('/buscarealizada');
 		},
 		enviarBuscaDoador() {
-			fetch("http://localhost:3000/doador/query", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					codigo: this.userData.codigo,
-					nome: this.userData.nome,
-					cpf: this.userData.cpf,
-					contato: this.userData.contato,
-					tipoSanguineo: this.userData.tipoSanguineo,
-					rh: this.userData.rh,
-				}),
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					// Aqui você pode processar a resposta do servidor
-					this.nao_buscou = false;
-					this.dadosBusca = data;
-				});
+            DoadorService.buscarDoador(this.userData).then( data => {
+                this.dadosBusca = data;
+                this.nao_buscou = false;
+            });
 		},
 	},
 };
@@ -175,6 +142,7 @@ export default {
 						<td>{{ item.rh }}</td>
 						<td><button @click="goToAlterando(item)">Alterar</button></td>
 						<td><button @click="handleRemove(item)">Remover</button></td>
+						<td><button @click="RaiseYourMomma">Listar Doações</button></td>
 
 						<Modal v-if="isModalVisible" @confirm="removeConfirmed(objAlterando)" @cancel="cancelRemove">
 							<!-- O que eu colocar aqui aparecerá onde tiver a tag slot no componente Modal -->
@@ -216,6 +184,9 @@ export default {
 					<input v-model="objAlterando.rh" type="radio" name="rh" id="negativo" value="negativo" />
 					<label for="negativo">- (negativo)</label><br /><br />
 
+					<label>Tipo Sanguíneo e RH estão corretos?</label>
+					<input v-model="objAlterando.tipoRhCorretos" type="checkbox" name="tipoRhCorretos" id="check" value="check" /> <br>
+					<br>
 					<button type="submit">Salvar Alterações</button>
 				</fieldset>
 			</form>
