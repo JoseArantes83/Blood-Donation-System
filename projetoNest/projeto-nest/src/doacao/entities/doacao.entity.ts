@@ -1,27 +1,26 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { LocalDate, LocalTime } from '@js-joda/core';
 import { Doador } from "src/doador/entities/doador.entity";
 
-@Entity({ name: 'doacao' })
+@Entity('doacao')
 export class Doacao {
 
-    @PrimaryGeneratedColumn({ name: 'codigo'})
+    @PrimaryGeneratedColumn('increment')
     codigo: number;
 
-    @Column({type: 'text'})
+    @Column('text')
     data: LocalDate;
 
-    @Column({type: 'text'})
+    @Column('text')
     hora: LocalTime;
 
-    @Column()
+    @Column('decimal', { precision: 10, scale: 3 })
     volume: number;
 
-    @Column({ name: 'codigo_doador'})
-    codigoDoador: number;
+    @Column('text', { default: 'ATIVO' })
+    situacao: string;
 
     @ManyToOne(() => Doador, (doador) => doador.doacoes)
-    @JoinColumn({ name: 'codigo_doador'})
+    @JoinColumn({ name: 'codigo_doador' })
     doador: Doador;
-
 }
