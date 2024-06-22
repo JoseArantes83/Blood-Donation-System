@@ -24,6 +24,7 @@ export class CreateDoadorPipe implements PipeTransform {
             contato: value.contato,
             tipoSanguineo: tipoSanguineo,
             rh: rh,
+            tipoRhCorretos: value.tipoRhCorretos,
         };
 
         return object;

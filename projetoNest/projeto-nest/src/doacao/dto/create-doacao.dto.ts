@@ -1,4 +1,5 @@
-import { IsDateString, IsNotEmpty } from "class-validator";
+import { IsDateString, IsNotEmpty } from 'class-validator';
+import { IsTimeString } from './time-string.validator';
 
 export class CreateDoacaoDto {
     @IsNotEmpty()
@@ -6,9 +7,11 @@ export class CreateDoacaoDto {
     data: string;
 
     @IsNotEmpty()
-    @IsDateString({}, { message: 'A hora deve estar no formato HH:mm' })
+    @IsTimeString({ message: 'A hora deve estar no formato HH:mm' })
     hora: string;
 
     @IsNotEmpty()
     volume: number;
+
+    //falta argumentos.
 }
