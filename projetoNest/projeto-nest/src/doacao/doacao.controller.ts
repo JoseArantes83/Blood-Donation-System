@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DoacaoService } from './doacao.service';
 import { CreateDoacaoDto } from './dto/create-doacao.dto';
 import { UpdateDoacaoDto } from './dto/update-doacao.dto';
+import { GetDoacaoDto } from './dto/get-doacao.dto';
 
 @Controller('doacao')
 export class DoacaoController {
@@ -17,24 +18,22 @@ export class DoacaoController {
 		return this.doacaoService.findAll();
 	}
 
-	// @Get(':id/doacoes') // a fazer
-	// findAllDonations(@Param('id') doadorId: string) {
-	// 	return this.doacaoService.findAllDonations(+doadorId);
-	// }
-
-
-
-	@Post('/query') // a fazer
-	findAllFiltered(@Body() getDoacaoDto: CreateDoacaoDto) {
-		return this.doacaoService.findAllUsingFilter(getDoacaoDto);
-	}
-
-	@Get(':id') // a fazer
+	@Get(':id')
 	findOne(@Param('id') id: string) {
 		return this.doacaoService.findOne(+id);
 	}
 
-	@Patch(':id') // a fazer
+	@Post('query')
+	findAllFiltered(@Body() getDoacaoDto: GetDoacaoDto) {
+		return this.doacaoService.findAllUsingFilter(getDoacaoDto);
+	}
+
+	@Get(':id/doacoes')
+	findAllDonations(@Param('id') doadorId: string) {
+		return this.doacaoService.findAllDonationsByDonor(+doadorId);
+	}
+
+	@Patch(':id')
 	update(@Param('id') id: string, @Body() updateDoacaoDto: UpdateDoacaoDto) {
 		return this.doacaoService.update(+id, updateDoacaoDto);
 	}

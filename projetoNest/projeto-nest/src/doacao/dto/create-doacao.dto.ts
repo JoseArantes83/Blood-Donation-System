@@ -13,5 +13,6 @@ export class CreateDoacaoDto {
     @IsNotEmpty()
     volume: number;
 
-    //falta argumentos.
+    @IsNotEmpty()
+    codigo_doador: number;
 }

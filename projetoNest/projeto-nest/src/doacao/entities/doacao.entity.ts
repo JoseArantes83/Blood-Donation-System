@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { LocalDate, LocalTime } from '@js-joda/core';
-import { Doador } from "src/doador/entities/doador.entity";
+import { Doador } from "../../doador/entities/doador.entity";
 
 @Entity('doacao')
 export class Doacao {

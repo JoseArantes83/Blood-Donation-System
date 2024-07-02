@@ -8,7 +8,7 @@ import { Doacao } from "src/doacao/entities/doacao.entity";
 export class Doador {
 
     @PrimaryGeneratedColumn({ name: 'codigo', type: 'bigint' })
-    codigo: Number;
+    codigo: number;
 
     @Column({ type: 'text' })
     nome: String;
@@ -31,6 +31,8 @@ export class Doador {
     @Column({ type: 'text', default: 'ATIVO' })
     situacao: String;
 
+    // @OneToMany(() => Doacao, (doacao) => doacao.codigo_doador)
+    // doacoes: Doacao[];
     @OneToMany(() => Doacao, (doacao) => doacao.doador)
     doacoes: Doacao[];
 }
