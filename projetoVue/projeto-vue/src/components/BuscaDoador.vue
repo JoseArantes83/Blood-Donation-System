@@ -1,4 +1,5 @@
 <script>
+import DoacaoService from '@/services/DoacaoService';
 import Modal from './Modal.vue';
 import DoadorService from '@/services/DoadorService';
 
@@ -6,8 +7,10 @@ export default {
 	name: "BuscaDoador",
 	data() {
 		return {
-			nao_buscou: true, // booleano para dizer qual template apresentar: tela de busca ou de dados buscados
-			nao_alterando: true,
+			formulario: true,
+			buscou: false, // booleano para dizer qual template apresentar: tela de busca ou de dados buscados
+			alterando: false,
+			listando_doacoes: false,
 			userData: {
 				codigo: "",
 				nome: "",
@@ -39,19 +42,26 @@ export default {
 		},
 		alterar(item) {
             DoadorService.alterar(item).then(() => {
-                this.nao_alterando = true;
+                this.alterando = false;
+				this.buscou = true;
             })
 		},
 		goToAlterando(item) {
 			this.objAlterando = item;
-			this.nao_alterando = false;
-
+			this.buscou = false;
+			this.alterando = true;
+		},
+		goToListarDoacoes(codigoDoador) {
+			this.enviarBuscaDoacoes(codigoDoador)
 		},
 		goToListaDados() {
-			this.nao_alterando = true;
+			this.alterando = false;
+			this.buscou = true;
 		},
 		goToBuscaDoador() {
-			this.nao_buscou = true;
+			this.listando_doacoes = false;
+			this.buscou = false;
+			this.formulario = true;
 		},
 		goToTelaInicial() {
 			this.$router.push('/telainicial');
@@ -62,15 +72,24 @@ export default {
 		enviarBuscaDoador() {
             DoadorService.buscarDoador(this.userData).then( data => {
                 this.dadosBusca = data;
-                this.nao_buscou = false;
+                this.buscou = true;
+				this.formulario = false;
             });
 		},
+		enviarBuscaDoacoes(codigoDoador) {
+			DoacaoService.buscarDoacoesByDoadorId(codigoDoador).then( data => {
+				this.dadosBusca = data;
+				console.log("Dados da busca: "+ data);
+				this.buscou = false
+				this.listando_doacoes = true //Agora vamos listar as doacoes do doador respectivo
+			});
+		}
 	},
 };
 </script>
 
 <template>
-	<div v-if="nao_buscou && nao_alterando">
+	<div v-if="formulario">
 		<form @submit.prevent="enviarBuscaDoador">
 			<!-- .prevent previne que o form atue de forma padrão e atualize a página com o submit -->
 			<fieldset>
@@ -117,8 +136,7 @@ export default {
 		</form>
 		<button @click="goToTelaInicial">Voltar</button>
 	</div>
-	<div v-else>
-		<div v-if="nao_alterando">
+	<div v-if="buscou">
 			<table border="1">
 				<thead>
 					<tr>
@@ -128,6 +146,7 @@ export default {
 						<th>Contato</th>
 						<th>Tipo Sanguíneo</th>
 						<th>RH</th>
+						<th></th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -142,7 +161,7 @@ export default {
 						<td>{{ item.rh }}</td>
 						<td><button @click="goToAlterando(item)">Alterar</button></td>
 						<td><button @click="handleRemove(item)">Remover</button></td>
-						<td><button @click="RaiseYourMomma">Listar Doações</button></td>
+						<td><button @click="goToListarDoacoes(item.codigo)">Listar Doações</button></td>
 
 						<Modal v-if="isModalVisible" @confirm="removeConfirmed(objAlterando)" @cancel="cancelRemove">
 							<!-- O que eu colocar aqui aparecerá onde tiver a tag slot no componente Modal -->
@@ -153,45 +172,67 @@ export default {
 			</table>
 			<br />
 			<button @click="goToBuscaDoador">Voltar</button>
-		</div>
-		<div v-else>
-			<form @submit.prevent="alterar(objAlterando)">
-				<fieldset>
-					<label for="nome">Nome:</label>
-					<input v-model="objAlterando.nome" type="text" id="nome" placeholder="Insira seu nome"
-						autofocus /><br>
+	</div>
+	<div v-if="listando_doacoes">
+		<table border="1">
+				<thead>
+					<tr>
+						<th>Código</th>
+						<th>Data</th>
+						<th>Hora</th>
+						<th>Volume</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in dadosBusca" :key="item.codigo">
+						<td>{{ item.codigo }}</td>
+						<td>{{ item.data }}</td>
+						<td>{{ item.hora }}</td>
+						<td>{{ parseFloat(item.volume).toFixed(2) }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<br />
+			<button @click="goToBuscaDoador">Voltar</button>
+	</div>
+	<div v-if="alterando">
+		<form @submit.prevent="alterar(objAlterando)">
+			<fieldset>
+				<label for="nome">Nome:</label>
+				<input v-model="objAlterando.nome" type="text" id="nome" placeholder="Insira seu nome"
+					autofocus /><br>
 
-					<label for="cpf">CPF:</label>
-					<input v-model="objAlterando.cpf" type="text" id="cpf" placeholder="Insira seu CPF" /><br>
+				<label for="cpf">CPF:</label>
+				<input v-model="objAlterando.cpf" type="text" id="cpf" placeholder="Insira seu CPF" /><br>
 
-					<label for="contato">Contato:</label>
-					<input v-model="objAlterando.contato" type="text" id="contato" placeholder="Insira seu contato"
-						autofocus /><br>
+				<label for="contato">Contato:</label>
+				<input v-model="objAlterando.contato" type="text" id="contato" placeholder="Insira seu contato"
+					autofocus /><br>
 
-					<label>Tipo Sanguíneo:</label><br>
-					<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="a" value="a" />
-					<label for="a">A</label><br />
-					<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="b" value="b" />
-					<label for="b">B</label><br />
-					<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="ab" value="ab" />
-					<label for="ab">AB</label><br />
-					<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="o" value="o" />
-					<label for="o">O</label><br /><br />
+				<label>Tipo Sanguíneo:</label><br>
+				<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="a" value="a" />
+				<label for="a">A</label><br />
+				<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="b" value="b" />
+				<label for="b">B</label><br />
+				<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="ab" value="ab" />
+				<label for="ab">AB</label><br />
+				<input v-model="objAlterando.tipoSanguineo" type="radio" name="tipoSanguineo" id="o" value="o" />
+				<label for="o">O</label><br /><br />
 
-					<label>RH:</label><br>
-					<input v-model="objAlterando.rh" type="radio" name="rh" id="positivo" value="positivo" />
-					<label for="positivo">+ (positivo)</label><br />
-					<input v-model="objAlterando.rh" type="radio" name="rh" id="negativo" value="negativo" />
-					<label for="negativo">- (negativo)</label><br /><br />
+				<label>RH:</label><br>
+				<input v-model="objAlterando.rh" type="radio" name="rh" id="positivo" value="positivo" />
+				<label for="positivo">+ (positivo)</label><br />
+				<input v-model="objAlterando.rh" type="radio" name="rh" id="negativo" value="negativo" />
+				<label for="negativo">- (negativo)</label><br /><br />
 
-					<label>Tipo Sanguíneo e RH estão corretos?</label>
-					<input v-model="objAlterando.tipoRhCorretos" type="checkbox" name="tipoRhCorretos" id="check" value="check" /> <br>
-					<br>
-					<button type="submit">Salvar Alterações</button>
-				</fieldset>
-			</form>
-			<button @click="goToListaDados">Voltar</button>
-		</div>
+				<label>Tipo Sanguíneo e RH estão corretos?</label>
+				<input v-model="objAlterando.tipoRhCorretos" type="checkbox" name="tipoRhCorretos" id="check" value="check" /> <br>
+				<label for=""></label>
+				<br>
+				<button type="submit">Salvar Alterações</button>
+			</fieldset>
+		</form>
+		<button @click="goToListaDados">Voltar</button>
 	</div>
 </template>
 
