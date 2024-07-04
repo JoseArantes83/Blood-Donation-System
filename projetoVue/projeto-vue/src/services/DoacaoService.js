@@ -3,7 +3,7 @@ class DoadorService {
         this.apiBaseUrl = 'http://localhost:3000';
     }
 
-    async buscarDoacoesByDoadorId(doadorId){
+    async buscarDoacoesByDoadorId(doadorId) {
         const response = await fetch(`${this.apiBaseUrl}/doacao/${doadorId}/doacoes`, {
             method: 'GET',
             headers: {
@@ -11,6 +11,17 @@ class DoadorService {
             },
     });
         console.log("Buscou doacoes!");
+        return response.json();
+    }
+
+    async buscarDoacoesByFilter() {
+        const response = await fetch(`${this.apiBaseUrl}/doacao`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log("Buscou doacoes por filtro!");
         return response.json();
     }
 }

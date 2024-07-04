@@ -20,8 +20,10 @@ export default {
 				rh: "",
 				tipoRhCorretos: ""
 			},
+			doadorSelecionado: Object,
 			objAlterando: Object,
-			dadosBusca: Object,
+			doadoresBuscados: Object,
+			doacoesBuscadas: Object,
 			isModalVisible: false,
 		};
 	},
@@ -32,27 +34,28 @@ export default {
 			this.isModalVisible = true; // Abre o modal
 		},
 		removeConfirmed(item) {
-            DoadorService.remover(item.codigo).then(() => {
-			    this.isModalVisible = false; // Fecha o modal após a remoção
-                location.reload();
-            });
+			DoadorService.remover(item.codigo).then(() => {
+				this.isModalVisible = false; // Fecha o modal após a remoção
+				location.reload();
+			});
 		},
 		cancelRemove() {
 			this.isModalVisible = false; // Fecha o modal sem realizar nenhuma ação
 		},
 		alterar(item) {
-            DoadorService.alterar(item).then(() => {
-                this.alterando = false;
+			DoadorService.alterar(item).then(() => {
+				this.alterando = false;
 				this.buscou = true;
-            })
+			})
 		},
 		goToAlterando(item) {
 			this.objAlterando = item;
 			this.buscou = false;
 			this.alterando = true;
 		},
-		goToListarDoacoes(codigoDoador) {
-			this.enviarBuscaDoacoes(codigoDoador)
+		goToListarDoacoes(doador) {
+			this.doadorSelecionado = doador;
+			this.enviarBuscaDoacoes(doador.codigo)
 		},
 		goToListaDados() {
 			this.alterando = false;
@@ -70,18 +73,18 @@ export default {
 			this.$router.push('/buscarealizada');
 		},
 		enviarBuscaDoador() {
-            DoadorService.buscarDoador(this.userData).then( data => {
-                this.dadosBusca = data;
-                this.buscou = true;
+			DoadorService.buscarDoador(this.userData).then(data => {
+				this.doadoresBuscados = data;
+				this.buscou = true;
 				this.formulario = false;
-            });
+			});
 		},
 		enviarBuscaDoacoes(codigoDoador) {
-			DoacaoService.buscarDoacoesByDoadorId(codigoDoador).then( data => {
-				this.dadosBusca = data;
-				console.log("Dados da busca: "+ data);
-				this.buscou = false
-				this.listando_doacoes = true //Agora vamos listar as doacoes do doador respectivo
+			DoacaoService.buscarDoacoesByDoadorId(codigoDoador).then(data => {
+				this.doacoesBuscadas = data;
+				console.log("Dados da busca: " + data);
+				this.buscou = false;
+				this.listando_doacoes = true; //Agora vamos listar as doacoes do doador respectivo
 			});
 		}
 	},
@@ -134,10 +137,13 @@ export default {
 				<button type="submit">Buscar</button>
 			</fieldset>
 		</form>
-		<button @click="goToTelaInicial">Voltar</button>
+		<button @click="goToTelaInicial" class="button-back">Voltar</button>
 	</div>
 	<div v-if="buscou">
-			<table border="1">
+		<div class="table-wrapper">
+			<h2> Lista de Doadores </h2>
+			<br />
+			<table border="1" class="lista">
 				<thead>
 					<tr>
 						<th>Código</th>
@@ -152,8 +158,8 @@ export default {
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="item in dadosBusca" :key="item.codigo">
-						<td>{{ item.codigo }}</td>
+					<tr v-for="item in doadoresBuscados" :key="item.codigo">
+						<td class="codigo-col">{{ item.codigo }}</td>
 						<td>{{ item.nome }}</td>
 						<td>{{ item.cpf }}</td>
 						<td>{{ item.contato }}</td>
@@ -161,7 +167,7 @@ export default {
 						<td>{{ item.rh }}</td>
 						<td><button @click="goToAlterando(item)">Alterar</button></td>
 						<td><button @click="handleRemove(item)">Remover</button></td>
-						<td><button @click="goToListarDoacoes(item.codigo)">Listar Doações</button></td>
+						<td><button @click="goToListarDoacoes(item)">Listar Doações</button></td>
 
 						<Modal v-if="isModalVisible" @confirm="removeConfirmed(objAlterando)" @cancel="cancelRemove">
 							<!-- O que eu colocar aqui aparecerá onde tiver a tag slot no componente Modal -->
@@ -171,10 +177,13 @@ export default {
 				</tbody>
 			</table>
 			<br />
-			<button @click="goToBuscaDoador">Voltar</button>
+			<button @click="goToBuscaDoador" class="button-back">Voltar</button>
+		</div>
 	</div>
 	<div v-if="listando_doacoes">
-		<table border="1">
+		<div class="table-wrapper">
+			<h2>Doacoes do {{ doadorSelecionado.nome }}</h2>
+			<table border="1" class="lista">
 				<thead>
 					<tr>
 						<th>Código</th>
@@ -184,8 +193,8 @@ export default {
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="item in dadosBusca" :key="item.codigo">
-						<td>{{ item.codigo }}</td>
+					<tr v-for="item in doacoesBuscadas" :key="item.codigo">
+						<td class="codigo-col">{{ item.codigo }}</td>
 						<td>{{ item.data }}</td>
 						<td>{{ item.hora }}</td>
 						<td>{{ parseFloat(item.volume).toFixed(2) }}</td>
@@ -193,14 +202,14 @@ export default {
 				</tbody>
 			</table>
 			<br />
-			<button @click="goToBuscaDoador">Voltar</button>
+			<button @click="goToBuscaDoador" class="button-back">Voltar</button>
+		</div>
 	</div>
 	<div v-if="alterando">
 		<form @submit.prevent="alterar(objAlterando)">
 			<fieldset>
 				<label for="nome">Nome:</label>
-				<input v-model="objAlterando.nome" type="text" id="nome" placeholder="Insira seu nome"
-					autofocus /><br>
+				<input v-model="objAlterando.nome" type="text" id="nome" placeholder="Insira seu nome" autofocus /><br>
 
 				<label for="cpf">CPF:</label>
 				<input v-model="objAlterando.cpf" type="text" id="cpf" placeholder="Insira seu CPF" /><br>
@@ -226,13 +235,13 @@ export default {
 				<label for="negativo">- (negativo)</label><br /><br />
 
 				<label>Tipo Sanguíneo e RH estão corretos?</label>
-				<input v-model="objAlterando.tipoRhCorretos" type="checkbox" name="tipoRhCorretos" id="check" value="check" /> <br>
+				<input v-model="objAlterando.tipoRhCorretos" type="checkbox" name="tipoRhCorretos" id="check"
+					value="check" /> <br>
 				<label for=""></label>
-				<br>
 				<button type="submit">Salvar Alterações</button>
 			</fieldset>
 		</form>
-		<button @click="goToListaDados">Voltar</button>
+		<button @click="goToListaDados" class="button-back">Voltar</button>
 	</div>
 </template>
 
@@ -255,5 +264,42 @@ fieldset {
 #erro {
 	color: red;
 	font-style: italic;
+}
+
+.table-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.lista {
+	background-color: white;
+	border-collapse: collapse;
+	text-align: center;
+	/* Centraliza o texto dentro das células */
+}
+
+.lista th,
+.lista td {
+	padding: 8px;
+	vertical-align: middle;
+}
+
+.lista th {
+	background-color: lightblue;
+	font-weight: bold;
+}
+
+.codigo-col {
+	background-color: lightblue;
+	font-weight: bold;
+}
+
+.button-back {
+	padding: 10px;
+	font-size: medium;
+	border-style: solid;
+	border-width: 1px;
 }
 </style>

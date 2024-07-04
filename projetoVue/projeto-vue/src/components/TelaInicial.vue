@@ -14,7 +14,7 @@ export default {
 		<nav>
 			<RouterLink to="/cadastrodoador">Cadastrar doadores</RouterLink> |
 			<RouterLink to="/buscadoador">Buscar doadores</RouterLink> |
-			<RouterLink to="/buscadoacoes">Buscar doações</RouterLink>
+			<RouterLink to="/buscadoacoes">Doações</RouterLink>
 		</nav>
 	</main>
 </template>

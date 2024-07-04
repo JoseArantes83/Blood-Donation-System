@@ -3,7 +3,7 @@ class DoadorService {
         this.apiBaseUrl = 'http://localhost:3000';
     }
 
-    async buscarDoador(doadorData){
+    async buscarDoador(doadorData) {
         const response = await fetch(`${this.apiBaseUrl}/doador/query`, {
             method: 'POST',
             headers: {
