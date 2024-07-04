@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
 import { DoacaoService } from './doacao.service';
 import { CreateDoacaoDto } from './dto/create-doacao.dto';
 import { UpdateDoacaoDto } from './dto/update-doacao.dto';
 import { GetDoacaoDto } from './dto/get-doacao.dto';
+import { GetDoacaoByDateDto } from './dto/get-doacao-by-date.dto';
 
 @Controller('doacao')
 export class DoacaoController {
@@ -31,6 +32,10 @@ export class DoacaoController {
 	@Get(':id/doacoes')
 	findAllDonations(@Param('id') doadorId: string) {
 		return this.doacaoService.findAllDonationsByDonor(+doadorId);
+	}
+	@Post('by-date')
+	findAllByDateRange(@Body() getDoacaoByDateDto: GetDoacaoByDateDto) {
+		return this.doacaoService.findAllByDateRange(getDoacaoByDateDto);
 	}
 
 	@Patch(':id')

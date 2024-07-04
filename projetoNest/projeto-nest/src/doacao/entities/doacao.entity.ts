@@ -1,18 +1,16 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { LocalDate, LocalTime } from '@js-joda/core';
-import { Doador } from "../../doador/entities/doador.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Doador } from '../../doador/entities/doador.entity';
 
 @Entity('doacao')
 export class Doacao {
-
     @PrimaryGeneratedColumn('increment')
     codigo: number;
 
     @Column('text')
-    data: LocalDate;
+    data: string;
 
     @Column('text')
-    hora: LocalTime;
+    hora: string;
 
     @Column('decimal', { precision: 10, scale: 3 })
     volume: number;

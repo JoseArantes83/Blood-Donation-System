@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { CreateDoacaoDto } from './dto/create-doacao.dto';
 import { UpdateDoacaoDto } from './dto/update-doacao.dto';
 import { Doacao } from './entities/doacao.entity';
-import { GetDoadorDto } from 'src/doador/dto/get-doador.dto';
 import { isEmpty } from 'class-validator';
 import { GetDoacaoDto } from './dto/get-doacao.dto';
 import { Doador } from 'src/doador/entities/doador.entity';
 import { Logger } from '@nestjs/common';
+import { GetDoacaoByDateDto } from './dto/get-doacao-by-date.dto';
 
 @Injectable()
 export class DoacaoService {
@@ -77,8 +77,20 @@ export class DoacaoService {
 	}
 
 	async findAllDonationsByDonor(doadorId: number): Promise<Doacao[]> {
-		return await this.doacaoRepository.find({ 
-			where: { doador: { codigo: doadorId}, situacao: 'ATIVO' }, relations: ['doador']
+		return await this.doacaoRepository.find({
+			where: { doador: { codigo: doadorId }, situacao: 'ATIVO' }, relations: ['doador']
+		});
+	}
+
+	async findAllByDateRange(dto: GetDoacaoByDateDto): Promise<Doacao[]> {
+		const { dataInicio, dataFim } = dto;
+		this.logger.log(`Filtering doacoes from ${dataInicio} to ${dataFim}`);
+
+		return this.doacaoRepository.find({
+			where: {
+				data: Between(new Date(dataInicio).toISOString().split('T')[0], new Date(dataFim).toISOString().split('T')[0]),
+			},
+			relations: ['doador'],
 		});
 	}
 
