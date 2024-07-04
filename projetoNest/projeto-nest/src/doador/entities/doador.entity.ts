@@ -3,7 +3,6 @@ import { TipoSanguineo } from "../enums/tipoSanguineo";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Doacao } from "src/doacao/entities/doacao.entity";
 
-
 @Entity()
 export class Doador {
 
@@ -31,8 +30,6 @@ export class Doador {
     @Column({ type: 'text', default: 'ATIVO' })
     situacao: String;
 
-    // @OneToMany(() => Doacao, (doacao) => doacao.codigo_doador)
-    // doacoes: Doacao[];
     @OneToMany(() => Doacao, (doacao) => doacao.doador)
     doacoes: Doacao[];
 }
