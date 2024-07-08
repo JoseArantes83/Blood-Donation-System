@@ -1,6 +1,7 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import DoadorService from '@/services/DoadorService';
 
 export default {
 	name: "CadastroDoador",
@@ -37,20 +38,16 @@ export default {
 			if (this.v$.$invalid) {
 				alert("Há campos com valores inválidos! Tente novamente.");
 			} else {
-				fetch("http://localhost:3000/doador", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						nome: this.userData.nome,
-						cpf: this.userData.cpf,
-						contato: this.userData.contato,
-						tipoSanguineo: this.userData.tipoSanguineo,
-						rh: this.userData.rh,
-					}),
-				})
-					.then((response) => response.json())
+				let novoDoador = {
+					nome: this.userData.nome,
+					cpf: this.userData.cpf,
+					contato: this.userData.contato,
+					tipoSanguineo: this.userData.tipoSanguineo,
+					rh: this.userData.rh
+				}
+				console.log(`Novo Doador: ${novoDoador}`)
+				DoadorService.cadastrarDoador(novoDoador)
+				.then((response) => response.json())
 					.then((data) => {
 						// Aqui você pode processar a resposta do servidor
 						console.log(data);
