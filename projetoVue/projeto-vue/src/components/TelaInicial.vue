@@ -13,7 +13,7 @@ export default {
 		<h1>Menu Principal</h1><br>
 		<nav>
 			<RouterLink to="/cadastrodoador">Cadastrar doadores</RouterLink> |
-			<RouterLink to="/buscadoador">Buscar doadores</RouterLink> |
+			<RouterLink to="/buscadoador">Gerenciar Doadores e Doações</RouterLink> |
 			<RouterLink to="/buscadoacoes">Doações</RouterLink>
 		</nav>
 	</main>

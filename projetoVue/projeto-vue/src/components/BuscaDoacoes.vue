@@ -7,10 +7,10 @@ export default {
     data() {
         return {
             buscou: false,
-            donationData: {
-                volume: "",
-                date: "",
-                hour: "",
+            buscou_por_data: false,
+            dataRange: {
+                dataInicio: "",
+                dataFim: ""
             },
             doacoesBuscadas: Object,
         };
@@ -21,7 +21,15 @@ export default {
             DoacaoService.buscarDoacoesByFilter().then(data => {
                 this.doacoesBuscadas = data;
                 this.buscou = true;
+                this.buscou_por_data = false;
                 console.log("Dados da busca: " + data);
+            });
+        },
+        enviarBuscaPorData(dataRange){
+            DoacaoService.buscarDoacoesByFilter(dataRange).then(data => {
+                this.doacoesBuscadas = data;
+                this.buscou_por_data = true;
+                this.buscou = false;
             });
         }
     }
@@ -32,7 +40,8 @@ export default {
 
 <template>
     <div>
-       <button @click="enviarBuscaDoacoes" class="button-back">Buscar</button>
+       <button @click="enviarBuscaDoacoes" class="button">Buscar</button>
+       <button @click="enviarBuscaPorData" class="button">Buscar por Data</button>
        <div v-if="buscou">
        <h2> Lista de Doacoes </h2>
        <table border="1" class="lista">
@@ -82,7 +91,7 @@ export default {
 	font-weight: bold;
 }
 
-.button-back {
+.button {
 	padding: 10px;
 	font-size: medium;
 	border-style: solid;

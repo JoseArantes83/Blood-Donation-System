@@ -1,16 +1,23 @@
 <script>
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 import DoacaoService from '@/services/DoacaoService';
 import Modal from './Modal.vue';
 import DoadorService from '@/services/DoadorService';
 
 export default {
 	name: "BuscaDoador",
+	setup() {
+		// Essa propriedade é de fundamental importância, pois é com ela que consigo usar o v$ para validações.
+		return { v$: useVuelidate() };
+	},
 	data() {
 		return {
-			formulario: true,
-			buscou: false, // booleano para dizer qual template apresentar: tela de busca ou de dados buscados
-			alterando: false,
+			formulario: true, // booleano para dizer qual template apresentar: se o formulario de busca de doadores deve aparecer ou nao
+			buscou: false, // booleano para dizer qual template apresentar: se buscou buscou doadores ou nao
+			alterando: false, // booleano para 
 			listando_doacoes: false,
+			nova_doacao: false,
 			userData: {
 				codigo: "",
 				nome: "",
@@ -20,12 +27,25 @@ export default {
 				rh: "",
 				tipoRhCorretos: ""
 			},
+			donationData: {
+				data: "",
+				hora: "",
+				volume: "",
+				codigo_doador: ""
+			},
 			doadorSelecionado: Object,
 			objAlterando: Object,
 			doadoresBuscados: Object,
 			doacoesBuscadas: Object,
 			isModalVisible: false,
 		};
+	},
+	validations: {
+		donationData: {
+			data: { required },
+			hora: { required },
+			volume: { required },
+		},
 	},
 	components: { Modal },
 	methods: {
@@ -59,9 +79,12 @@ export default {
 		},
 		goToListaDados() {
 			this.alterando = false;
+			this.listando_doacoes = false;
+			this.nova_doacao = false;
 			this.buscou = true;
 		},
 		goToBuscaDoador() {
+			this.nova_doacao = false;
 			this.listando_doacoes = false;
 			this.buscou = false;
 			this.formulario = true;
@@ -71,6 +94,15 @@ export default {
 		},
 		goToBuscaRealizada() {
 			this.$router.push('/buscarealizada');
+		},
+		goToNovaDoacao(doador) {
+			this.doadorSelecionado = doador;
+			this.listando_doacoes = false;
+			this.buscou = false;
+			this.nova_doacao = true;
+			if(doador){
+				console.log(`Doacao: ${doador}`)
+			}
 		},
 		enviarBuscaDoador() {
 			DoadorService.buscarDoador(this.userData).then(data => {
@@ -86,13 +118,34 @@ export default {
 				this.buscou = false;
 				this.listando_doacoes = true; //Agora vamos listar as doacoes do doador respectivo
 			});
-		}
+		},
+		cadastrarNovaDoacao(item) {
+			this.v$.$touch();
+			if (this.v$.$invalid) {
+				alert("Há campos com valores inválidos! Tente novamente.");
+			} else {
+				let novaDoacao = {
+					data: this.donationData.data,
+					hora: this.donationData.hora,
+					volume: this.donationData.volume,
+					codigo_doador: this.doadorSelecionado.codigo
+				}
+				DoacaoService.cadastrarDoacao(novaDoacao)
+				.then((response) => response.json())
+					.then((data) => {
+						// Aqui você pode processar a resposta do servidor
+						console.log(data);
+					});
+				location.reload();
+			}
+		},
 	},
 };
 </script>
 
 <template>
 	<div v-if="formulario">
+		<button @click="goToTelaInicial" class="button-back">Voltar</button>
 		<form @submit.prevent="enviarBuscaDoador">
 			<!-- .prevent previne que o form atue de forma padrão e atualize a página com o submit -->
 			<fieldset>
@@ -137,10 +190,9 @@ export default {
 				<button type="submit">Buscar</button>
 			</fieldset>
 		</form>
-		<button @click="goToTelaInicial" class="button-back">Voltar</button>
 	</div>
 	<div v-if="buscou">
-		<div class="table-wrapper">
+		<div class="content-wrapper">
 			<h2> Lista de Doadores </h2>
 			<br />
 			<table border="1" class="lista">
@@ -152,6 +204,7 @@ export default {
 						<th>Contato</th>
 						<th>Tipo Sanguíneo</th>
 						<th>RH</th>
+						<th></th>
 						<th></th>
 						<th></th>
 						<th></th>
@@ -167,7 +220,8 @@ export default {
 						<td>{{ item.rh }}</td>
 						<td><button @click="goToAlterando(item)">Alterar</button></td>
 						<td><button @click="handleRemove(item)">Remover</button></td>
-						<td><button @click="goToListarDoacoes(item)">Listar Doações</button></td>
+						<td><button @click="goToListarDoacoes(item)" :disabled="!item.tipoRhCorretos" >Listar Doações</button></td>
+						<td><button @click="goToNovaDoacao(item)" :disabled="!item.tipoRhCorretos" >Nova Doação</button></td>
 
 						<Modal v-if="isModalVisible" @confirm="removeConfirmed(objAlterando)" @cancel="cancelRemove">
 							<!-- O que eu colocar aqui aparecerá onde tiver a tag slot no componente Modal -->
@@ -181,7 +235,8 @@ export default {
 		</div>
 	</div>
 	<div v-if="listando_doacoes">
-		<div class="table-wrapper">
+		<button @click="goToListaDados()" class="button-back">Voltar</button>
+		<div class="content-wrapper">
 			<h2>Doacoes do {{ doadorSelecionado.nome }}</h2>
 			<table border="1" class="lista">
 				<thead>
@@ -202,7 +257,7 @@ export default {
 				</tbody>
 			</table>
 			<br />
-			<button @click="goToBuscaDoador" class="button-back">Voltar</button>
+			<button @click="goToNovaDoacao(doadorSelecionado)" class="button-back">Realizar Nova Doação</button>
 		</div>
 	</div>
 	<div v-if="alterando">
@@ -234,14 +289,37 @@ export default {
 				<input v-model="objAlterando.rh" type="radio" name="rh" id="negativo" value="negativo" />
 				<label for="negativo">- (negativo)</label><br /><br />
 
-				<label>Tipo Sanguíneo e RH estão corretos?</label>
+				<label for="check">Tipo Sanguíneo e RH estão corretos? </label>
 				<input v-model="objAlterando.tipoRhCorretos" type="checkbox" name="tipoRhCorretos" id="check"
 					value="check" /> <br>
-				<label for=""></label>
 				<button type="submit">Salvar Alterações</button>
 			</fieldset>
 		</form>
-		<button @click="goToListaDados" class="button-back">Voltar</button>
+		<button @click="goToListaDados()" class="button-back">Voltar</button>
+	</div>
+	<div v-if="nova_doacao">
+		<div class="nova-doacao">
+			<h2>Nova doação de {{ doadorSelecionado.nome }}:</h2>
+			<form @submit.prevent="cadastrarNovaDoacao">
+					<!-- .prevent previne que o form atue de forma padrão e atualize a página com o submit -->
+				<fieldset>
+					<label for="data">Data:</label>
+					<input v-model="donationData.data" type="date" id="codigo" placeholder="Insira uma data" autofocus /><br />
+					<label id="erro" v-if="v$.donationData.data.$error">Este é um campo obrigatório!</label><br />
+					<br />
+					<label for="hora">Hora:</label>
+					<input v-model="donationData.hora" type="time" id="nome" placeholder="Insira uma hora" autofocus /><br />
+					<label id="erro" v-if="v$.donationData.hora.$error">Este é um campo obrigatório!</label><br />
+					<br />
+					<label for="volume">Volume:</label>
+					<input v-model="donationData.volume" type="number" step="any" id="cpf" placeholder="Insira o volume de sangue" autofocus /><br />
+					<label id="erro" v-if="v$.donationData.volume.$error">Este é um campo obrigatório!</label><br />
+					<br />
+					<button type="submit">Cadastrar</button>
+				</fieldset>
+			</form>
+			<button @click="goToListaDados()" class="button-back">Voltar</button>
+		</div>
 	</div>
 </template>
 
@@ -266,11 +344,21 @@ fieldset {
 	font-style: italic;
 }
 
-.table-wrapper {
+.content-wrapper {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+}
+
+.nova-doacao {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	input {
+		min-width: 20vmin;
+	}
 }
 
 .lista {
