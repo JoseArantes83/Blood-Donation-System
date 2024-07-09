@@ -1,9 +1,14 @@
 <script>
+import useVuelidate from '@vuelidate/core';
 import Modal from './Modal.vue';
 import DoacaoService from '@/services/DoacaoService';
+import { required } from '@vuelidate/validators';
 
 export default {
     name: "BuscaDoacoes",
+    setup() {
+        return { v$: useVuelidate() };
+    },
     data() {
         return {
             buscou: false,
@@ -15,22 +20,27 @@ export default {
             doacoesBuscadas: Object,
         };
     },
+    validations: {
+        dataRange: {
+            dataInicio: { required },
+            dataFim: { required },
+        }
+    },
     components: { Modal },
     methods: {
-        enviarBuscaDoacoes(){
-            DoacaoService.buscarDoacoesByFilter().then(data => {
+        enviarBuscaPorData() {
+            this.v$.$touch();
+            if (this.v$.$invalid) {
+                alert("Preencha as datas para realizar a busca! Tente novamente.")
+            } else {
+                DoacaoService.buscarDoacoesByFilter(this.dataRange).then(data => {
                 this.doacoesBuscadas = data;
                 this.buscou = true;
-                this.buscou_por_data = false;
-                console.log("Dados da busca: " + data);
             });
+            }
         },
-        enviarBuscaPorData(dataRange){
-            DoacaoService.buscarDoacoesByFilter(dataRange).then(data => {
-                this.doacoesBuscadas = data;
-                this.buscou_por_data = true;
-                this.buscou = false;
-            });
+        goToTelaInicial() {
+            this.$router.push('/telainicial');
         }
     }
 }
@@ -39,11 +49,23 @@ export default {
 </script>
 
 <template>
-    <div>
-       <button @click="enviarBuscaDoacoes" class="button">Buscar</button>
-       <button @click="enviarBuscaPorData" class="button">Buscar por Data</button>
+    <button @click="goToTelaInicial" class="button">Voltar</button>
+    <div class="doacoes-buscadas">
+        <h2> Lista de Doações por Intervalo de Data </h2>
+        <form @submit.prevent="enviarBuscaPorData()">
+            <fieldset>
+                <label for="dataInicial">Data Inicial:</label>
+                <input v-model="dataRange.dataInicio" type="date" id="dataInicial" placeholder="Insira uma data inicial" autofocus> <br>
+                <label id="erro" v-if="v$.dataRange.dataInicio.$error">Este é um campo obrigatório!</label><br />
+                <br>
+                <label for="dataFinal">Data Final:</label>
+                <input v-model="dataRange.dataFim" type="date" id="dataFinal" placeholder="Insira uma data final" autofocus> <br>
+                <label id="erro" v-if="v$.dataRange.dataFim.$error">Este é um campo obrigatório!</label><br />
+                <br>
+                <button type="submit" class="button">Buscar</button>
+            </fieldset>
+        </form>
        <div v-if="buscou">
-       <h2> Lista de Doacoes </h2>
        <table border="1" class="lista">
         <thead>
             <tr>
@@ -51,6 +73,7 @@ export default {
                 <th>Data</th>
                 <th>Hora</th>
                 <th>Volume</th>
+                <th>Doador</th>
             </tr>
         </thead>
         <tbody>
@@ -59,6 +82,7 @@ export default {
 			<td>{{ item.data }}</td>
 			<td>{{ item.hora }}</td>
 			<td>{{ item.volume }}</td> 
+            <td>{{ item.doador.nome }}</td>
         </tr>
         </tbody>
        </table>
@@ -68,8 +92,30 @@ export default {
 
 <style lang="scss" scoped>
 
+.doacoes-buscadas {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	input {
+		min-width: 20vmin;
+	}
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: lightblue;
+}
+
+#erro {
+	color: red;
+	font-style: italic;
+}
+
 .lista {
-	background-color: white;
+	background-color: lightblue;
 	border-collapse: collapse;
 	text-align: center;
 	/* Centraliza o texto dentro das células */
