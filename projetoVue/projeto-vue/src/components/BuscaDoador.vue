@@ -8,7 +8,6 @@ import DoadorService from '@/services/DoadorService';
 export default {
 	name: "BuscaDoador",
 	setup() {
-		// Essa propriedade é de fundamental importância, pois é com ela que consigo usar o v$ para validações.
 		return { v$: useVuelidate() };
 	},
 	data() {
@@ -304,15 +303,15 @@ export default {
 					<!-- .prevent previne que o form atue de forma padrão e atualize a página com o submit -->
 				<fieldset>
 					<label for="data">Data:</label>
-					<input v-model="donationData.data" type="date" id="codigo" placeholder="Insira uma data" autofocus /><br />
+					<input v-model="donationData.data" type="date" id="data" placeholder="Insira uma data" autofocus /><br />
 					<label id="erro" v-if="v$.donationData.data.$error">Este é um campo obrigatório!</label><br />
 					<br />
 					<label for="hora">Hora:</label>
-					<input v-model="donationData.hora" type="time" id="nome" placeholder="Insira uma hora" autofocus /><br />
+					<input v-model="donationData.hora" type="time" id="hora" placeholder="Insira uma hora" autofocus /><br />
 					<label id="erro" v-if="v$.donationData.hora.$error">Este é um campo obrigatório!</label><br />
 					<br />
 					<label for="volume">Volume:</label>
-					<input v-model="donationData.volume" type="number" step="any" id="cpf" placeholder="Insira o volume de sangue" autofocus /><br />
+					<input v-model="donationData.volume" type="number" step="any" id="volume" placeholder="Insira o volume de sangue" autofocus /><br />
 					<label id="erro" v-if="v$.donationData.volume.$error">Este é um campo obrigatório!</label><br />
 					<br />
 					<button type="submit">Cadastrar</button>
