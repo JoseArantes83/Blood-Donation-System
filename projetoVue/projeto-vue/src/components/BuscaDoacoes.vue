@@ -1,6 +1,5 @@
 <script>
 import useVuelidate from '@vuelidate/core';
-import Modal from './Modal.vue';
 import DoacaoService from '@/services/DoacaoService';
 import { required } from '@vuelidate/validators';
 
@@ -26,7 +25,6 @@ export default {
             dataFim: { required },
         }
     },
-    components: { Modal },
     methods: {
         enviarBuscaPorData() {
             this.v$.$touch();
