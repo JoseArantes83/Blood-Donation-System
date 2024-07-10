@@ -1,4 +1,4 @@
-class DoadorService {
+class DoacaoService {
     constructor(){
         this.apiBaseUrl = 'http://localhost:3000';
     }
@@ -48,4 +48,4 @@ class DoadorService {
     }
 }
 
-export default new DoadorService();
+export default new DoacaoService();

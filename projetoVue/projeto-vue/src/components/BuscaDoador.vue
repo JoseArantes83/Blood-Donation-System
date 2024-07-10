@@ -14,9 +14,9 @@ export default {
 		return {
 			formulario: true, // booleano para dizer qual template apresentar: se o formulario de busca de doadores deve aparecer ou nao
 			buscou: false, // booleano para dizer qual template apresentar: se buscou buscou doadores ou nao
-			alterando: false, // booleano para 
-			listando_doacoes: false,
-			nova_doacao: false,
+			alterando: false, // booleano para dizer se estamos alterando um doador
+			listando_doacoes: false, // booleano para dizer se estamos listando as doações de um doador
+			nova_doacao: false, // booleano para dizer se estamos criando uma nova doação
 			userData: {
 				codigo: "",
 				nome: "",
