@@ -28,14 +28,17 @@ Ensure that these values match the configuration you used for the PostgreSQL con
 **For the NestJS Project:**
 Navigate to the **NestJS** project directory and install the necessary dependencies:
 ```bash
+npm i -g @nestjs/cli
 cd /path/to/nestjs/project
 npm install
 ```
 **For the Vue Project:**
 Navigate to the **Vue** project directory and install the necessary dependencies:
 ```bash
+npm install -g @vue/cli
 cd /path/to/vue/project
 npm install
+npm install vue-router@next	
 ```
 ### 5. Run the NestJS Project
 In the **NestJS** project directory, run the following command to start the server:
