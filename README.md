@@ -53,4 +53,4 @@ npm run dev
 ```
 This will start the Vue development server.
 ### 7. Access the Application
-* **Vue Frontend**: Once the Vue application is running, it will be accessible at [http://localhost:5173](http://localhost:5173/).
+Once the application is running, it will be accessible at [http://localhost:5173](http://localhost:5173/).
